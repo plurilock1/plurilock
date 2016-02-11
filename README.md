@@ -14,7 +14,29 @@ This project is created for the Plurilock team in Victoria, BC by members of CPS
 
 ### How to Get Started
 
-TBD
+#### Setting up the Repository Locally
+    Please make sure git is installed and running on your computer prior to setting up this project. In addition, read the following getting started documentation for GitHub to properly set up your ssh key:
+
+    - https://help.github.com/articles/set-up-git/ 
+
+    Before being able to contribute to the Plurilock mock client project, you first have to add https://github.com/plurilock1/plurilock.git as a remote reference by running `git remote add origin https://github.com/plurilock1/plurilock.git`. After adding your remote reference, run `git clone git@github.com:plurilock1/plurilock.git` to clone the repository to your local machine.  
+
+#### Pulling and pushing changes
+
+    The GitHub repository has two main branches: production and staging. Staging is the environment where new changes will be pushed and any manually testing will be performed. When the main bugs are sorted out, you can push any changes in staging to production.
+
+    We also want to keep a clean commit history, so when working in a local branch, please merge changes (git merge staging) to your local branch and then rebase (git rebase BRANCH_NAME) anything new onto staging before finally pushing your local changes to staging to the remote repository.
+
+ex.
+
+If your branch is called DEV, this is how you would check in your changes:
+
+  `git checkout DEV
+   git merge staging //resolve any merge conflicts that there might exist
+   git push origin DEV
+   git checkout staging
+   git rebase DEV
+   git push origin staging`
 
 ### Testing
 
