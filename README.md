@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/plurilock1/plurilock.svg?branch=master)](https://travis-ci.org/plurilock1/plurilock)
+
 ##Plurilock1 - CPSC 319 W2015
 
 ### Project

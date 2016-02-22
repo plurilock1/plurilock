@@ -1,6 +1,9 @@
-notifications:
+notifications: 
   slack: plurilock1:9Ddic6DYIACEoXXJyilg07j2
 
-language: android
+language: android 
+android: 
+  components:  
+  - build-tools-23.0.1 
 
-script: ./gradlew 
+script: ./gradlew test
