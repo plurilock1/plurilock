@@ -1,2 +1,6 @@
 notifications:
   slack: plurilock1:9Ddic6DYIACEoXXJyilg07j2
+
+language: android
+
+script: ./gradlew 
