@@ -11,8 +11,6 @@ android:
   - sys-img-armeabi-v7a-android-21  
 
 install:
-  - sudo apt-get install ruby1.9.1
-  - sudo apt-get install ruby1.9.1-dev
   - gem install rspec
   - gem install calabash-android
 
@@ -22,4 +20,5 @@ before_script:
 
 script:
   - ./gradlew test
+  - $ANDROID_HOME/platform-tools/adb devices
   - calabash-android run ./app/build/outputs/apk/app-debug.apk 
