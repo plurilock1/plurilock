@@ -2,6 +2,10 @@
 *.apk
 *.ap_
 
+#calabash files
+screenshot_*.png
+test_servers/
+
 # files for the dex VM
 *.dex
 
