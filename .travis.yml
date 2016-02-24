@@ -18,7 +18,7 @@ install:
 
 before_script:
   - ./gradlew assembleDebug
-  - export ANDROID_HOME=./sdk/
+  - export ANDROID_HOME=/usr/local/android-sdk/sources/
 
 script:
   - ./gradlew test
