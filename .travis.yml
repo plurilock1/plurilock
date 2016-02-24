@@ -18,7 +18,7 @@ install:
 
 before_script:
   - ./gradlew assembleDebug
-  - export ANDROID_HOME=$PWD/android-sdk
+  - export ANDROID_HOME=/usr/local/android-sdk
 
 script:
   - ./gradlew test
