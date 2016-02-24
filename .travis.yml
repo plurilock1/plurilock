@@ -11,8 +11,8 @@ android:
   - sys-img-armeabi-v7a-android-21  
 
 install:
-  - apt-get install ruby1.9.1
-  - apt-get install ruby1.9.1-dev
+  - sudo apt-get install ruby1.9.1
+  - sudo apt-get install ruby1.9.1-dev
   - gem install rspec
   - gem install calabash-android
 
