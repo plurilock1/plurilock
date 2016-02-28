@@ -30,7 +30,10 @@ public class StartActivity extends AppCompatActivity {
         });
 
         // Grab Device Specific Info at Startup
-        DeviceContextDataRetriever deviceData = new DeviceContextDataRetriever();
-        deviceData.logDeviceInfo();
+        GeoInfoRetriever geoInfo = new GeoInfoRetriever();
+        HardwareInfoRetriever hardwareInfo = new HardwareInfoRetriever();
+
+        geoInfo.logDeviceInfo();
+        hardwareInfo.logDeviceInfo();
     }
 }
