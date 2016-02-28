@@ -31,7 +31,7 @@ public class StartActivity extends AppCompatActivity {
 
         // Grab Device Specific Info at Startup
         GeoInfoRetriever geoInfo = new GeoInfoRetriever();
-        HardwareInfoRetriever hardwareInfo = new HardwareInfoRetriever();
+        HardwareInfoRetriever hardwareInfo = new HardwareInfoRetriever(this);
 
         geoInfo.logDeviceInfo();
         hardwareInfo.logDeviceInfo();
