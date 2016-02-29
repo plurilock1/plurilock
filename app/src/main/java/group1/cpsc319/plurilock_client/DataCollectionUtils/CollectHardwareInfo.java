@@ -1,4 +1,4 @@
-package group1.cpsc319.plurilock_client.Presenter;
+package group1.cpsc319.plurilock_client.DataCollectionUtils;
 
 import android.app.Activity;
 import android.graphics.Point;
@@ -14,7 +14,7 @@ import android.view.Display;
  *
  * Created by Junoh on 2/27/2016.
  */
-public class HardwareInfoRetriever implements DeviceContextData {
+public class CollectHardwareInfo implements CollectDeviceContextData {
 
     private String manufacturer;
     private String model;
@@ -22,7 +22,7 @@ public class HardwareInfoRetriever implements DeviceContextData {
     private int screenWidth;
     private int screenHeight;
 
-    public HardwareInfoRetriever(Activity activity) {
+    public CollectHardwareInfo(Activity activity) {
         this.model = Build.MODEL;
         this.manufacturer = Build.MANUFACTURER;
         this.sdkVersion = Build.VERSION.SDK_INT;

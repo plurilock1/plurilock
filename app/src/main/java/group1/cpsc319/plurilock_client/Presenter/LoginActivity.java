@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 
 import group1.cpsc319.plurilock_client.R;
+import group1.cpsc319.plurilock_client.DataCollectionUtils.CollectGeoInfo;
+import group1.cpsc319.plurilock_client.DataCollectionUtils.CollectHardwareInfo;
 
 /**
  * Created by anneunjungkim on 2016-02-27.
@@ -37,8 +39,8 @@ public class LoginActivity extends Activity {
         });
 
         // Grab Device Specific Info at Startup
-        GeoInfoRetriever geoInfo = new GeoInfoRetriever();
-        HardwareInfoRetriever hardwareInfo = new HardwareInfoRetriever(this);
+        CollectGeoInfo geoInfo = new CollectGeoInfo();
+        CollectHardwareInfo hardwareInfo = new CollectHardwareInfo(this);
 
         geoInfo.logDeviceInfo();
         hardwareInfo.logDeviceInfo();

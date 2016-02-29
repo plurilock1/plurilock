@@ -4,9 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import group1.cpsc319.plurilock_client.Model.User;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;

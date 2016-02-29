@@ -1,4 +1,4 @@
-package group1.cpsc319.plurilock_client.Presenter;
+package group1.cpsc319.plurilock_client.DataCollectionUtils;
 
 import android.util.Log;
 
@@ -14,14 +14,14 @@ import java.util.TimeZone;
  *
  * Created by Junoh on 2/27/2016.
  */
-public class GeoInfoRetriever implements DeviceContextData {
+public class CollectGeoInfo implements CollectDeviceContextData {
 
     private String language;
     private TimeZone timeZone;
     private long time;
     private String country;
 
-    public GeoInfoRetriever() {
+    public CollectGeoInfo() {
         this.language = Locale.getDefault().getISO3Language();
         Calendar cal = Calendar.getInstance();
         this.timeZone = cal.getTimeZone();
