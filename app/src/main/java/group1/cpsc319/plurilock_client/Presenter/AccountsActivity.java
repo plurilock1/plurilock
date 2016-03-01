@@ -1,7 +1,6 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,10 +8,12 @@ import android.view.MenuItem;
 
 import group1.cpsc319.plurilock_client.R;
 
+
 /**
  * Created by anneunjungkim on 2016-02-27.
  */
-public class AccountsActivity extends AppCompatActivity {
+
+public class AccountsActivity extends GestureCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,4 +54,5 @@ public class AccountsActivity extends AppCompatActivity {
 
         }
     }
+
 }
