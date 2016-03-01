@@ -16,55 +16,55 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-        Log.i(TAG, "Single Tap Up" + coordinate(e));
+        Log.i(TAG, "Single Tap Up" + coordinate(e) + getTouchType(e));
         return false;
     }
 
     @Override
     public void onLongPress(MotionEvent e) {
-        Log.i(TAG, "Long Press" + coordinate(e));
+        Log.i(TAG, "Long Press" + coordinate(e) + getTouchType(e));
     }
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-                            float distanceY) {
-        Log.i(TAG, "Scroll" + getTouchType(e1));
+                            float distanceY){
+        Log.i(TAG, "Scroll" + scrollCoordinate(e1, e2) + getTouchType(e1));
         return false;
     }
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                            float velocityY) {
-        Log.i(TAG, "Fling" + getTouchType(e1));
+        Log.i(TAG, "Fling" + scrollCoordinate(e1, e2) + getTouchType(e1));
         return false;
     }
 
     @Override
     public void onShowPress(MotionEvent e) {
-        Log.i(TAG, "Show Press" + coordinate(e));
+        Log.i(TAG, "Show Press" + coordinate(e) + getTouchType(e));
     }
 
     @Override
     public boolean onDown(MotionEvent e) {
-        Log.i(TAG, "Down" + coordinate(e));
+        Log.i(TAG, "Down" + coordinate(e) + getTouchType(e));
         return false;
     }
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
-        Log.i(TAG, "Double tap" + coordinate(e));
+        Log.i(TAG, "Double tap" + coordinate(e) + getTouchType(e));
         return false;
     }
 
     @Override
     public boolean onDoubleTapEvent(MotionEvent e) {
-        Log.i(TAG, "Event within double tap" + coordinate(e));
+        Log.i(TAG, "Event within double tap" + coordinate(e) + getTouchType(e));
         return false;
     }
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
-        Log.i(TAG, "Single tap confirmed" + coordinate(e));
+        Log.i(TAG, "Single tap confirmed" + coordinate(e) + getTouchType(e));
         return false;
     }
 
@@ -74,6 +74,17 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
         String a = "(" + x + " , " + y + ")";
         return a;
     }
+
+    private static String scrollCoordinate(MotionEvent e1, MotionEvent e2) {
+        int x1 = (int)e1.getX();
+        int y1 = (int)e1.getY();
+        int x2 = (int)e2.getX();
+        int y2 = (int)e2.getY();
+
+        String a = "(" + (x2 - x1) + " , " + (y2 - y1) + ")";
+        return a;
+    }
+
 
     private static String getTouchType(MotionEvent e) {
 
