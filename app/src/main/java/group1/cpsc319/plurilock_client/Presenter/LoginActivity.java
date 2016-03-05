@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.Button;
 
 import group1.cpsc319.plurilock_client.R;
-import group1.cpsc319.plurilock_client.DataCollectionUtils.CollectGeoInfo;
-import group1.cpsc319.plurilock_client.DataCollectionUtils.CollectHardwareInfo;
+import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.CollectGeoInfo;
+import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.CollectHardwareInfo;
 
 
 /**
@@ -37,7 +37,7 @@ public class LoginActivity extends GestureActivity {
         CollectGeoInfo geoInfo = new CollectGeoInfo();
         CollectHardwareInfo hardwareInfo = new CollectHardwareInfo(this);
 
-        geoInfo.logDeviceInfo();
-        hardwareInfo.logDeviceInfo();
+        geoInfo.collectDeviceInfo();
+        hardwareInfo.collectDeviceInfo();
     }
 }

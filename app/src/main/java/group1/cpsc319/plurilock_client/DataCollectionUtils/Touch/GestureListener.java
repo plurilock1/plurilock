@@ -1,4 +1,4 @@
-package group1.cpsc319.plurilock_client.TouchGesture;
+package group1.cpsc319.plurilock_client.DataCollectionUtils.Touch;
 
 import android.view.GestureDetector;
 import android.view.MotionEvent;

@@ -1,4 +1,4 @@
-package group1.cpsc319.plurilock_client.DataCollectionUtils;
+package group1.cpsc319.plurilock_client.DataCollectionUtils.Context;
 
 import android.util.Log;
 
@@ -29,7 +29,7 @@ public class CollectGeoInfo implements CollectDeviceContextData {
         this.country = Locale.getDefault().getISO3Country();
     }
 
-    public void logDeviceInfo() {
+    public void collectDeviceInfo() {
         Log.d(this.getLanguage(), "Language");
         Log.d(this.getTimeZone().getID(), "Time_Zone");
         Log.d(Long.toString(this.getTimeInMils()), "Time");

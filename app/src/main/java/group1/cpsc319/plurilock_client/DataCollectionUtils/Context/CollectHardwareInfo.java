@@ -1,4 +1,4 @@
-package group1.cpsc319.plurilock_client.DataCollectionUtils;
+package group1.cpsc319.plurilock_client.DataCollectionUtils.Context;
 
 import android.app.Activity;
 import android.graphics.Point;
@@ -48,7 +48,7 @@ public class CollectHardwareInfo implements CollectDeviceContextData {
      *      Screen_Width: 1080
      *      Screen_Height: 1776
      */
-    public void logDeviceInfo() {
+    public void collectDeviceInfo() {
         Log.d(Build.PRODUCT, "Product");
         Log.d(Build.BRAND, "Brand");
         Log.d(this.getModel(), "Model");
