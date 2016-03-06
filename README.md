@@ -35,17 +35,77 @@ ex.
 If your branch is called DEV, this is how you would check in your changes:
 
   ```
-   git checkout DEV`
-   git merge staging //resolve any merge conflicts that there might exist`
-   git push origin DEV`
-   git checkout staging`
-   git rebase DEV`
+   git checkout DEV
+   git merge staging //resolve any merge conflicts that there might exist
+   git push origin DEV
+   git checkout staging
+   git rebase DEV
    git push origin staging
    ```
 
 ### Testing
 
-TBD
+#### Unit Testing
+ 
+Local Unit Testing tutorial link: http://developer.android.com/training/testing/unit-testing/local-unit-tests.html
+
+Unit testing for this project is done using JUnit 4. All Unit Tests should be placed in the proper folder in the test package which mirrors the structure of the project. When writing a test, begin with writing a simple Java class and import any necessary libraries. Each class name should describe what the tests are actually testing (aka no vague names!). In JUnit 4, there is no special syntax for each method other than every method should be public and return void AND each test needs to be prefixed by the *@test* annotation. 
+
+A simple example (shown below) is located on the production branch and contains one test case on for the User class:
+
+```
+package group1.cpsc319.plurilock_client.Model;
+
+import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+
+/**
+ * Created by Matas on 2/21/16.
+ */
+public class UserTest {
+
+    @Test
+    public void user_printsString() {
+        User test = new User("Matas", "matas@alumni.ubc.ca");
+
+        assertEquals("assert userMessage prints properly", test.userMessage(), "Hello, Matas! Is your email, matas@alumni.ubc.ca still valid?");
+    }
+}
+```
+
+Each test may use different types of assertions or other testing methods. View the JUnit Documentation to see what methods can be used.
+
+##### Running a Unit Test
+
+With the current directory set to the directory containing feature tests, run the following command: TBD
+
+#### Assertion Testing
+
+Calabash assertion testing tutorial: https://developer.xamarin.com/guides/testcloud/calabash/creating-calabash-tests/
+Calabash predefined steps: https://github.com/calabash/calabash-android/blob/master/ruby-gem/lib/calabash-android/canned_steps.md
+Gherkin Syntax: https://github.com/cucumber/cucumber/wiki/Gherkin
+
+Assertion tests are created using the Calabash testing framework using Ruby. Calabash tests are located within the *features* folder at $HOME/plurilock-client/ and are written in a similar manner. An example is shown below:
+
+```
+Feature: Credit card validation.
+  Credit card numbers must be exactly 16 digits.
+
+  Scenario: Credit card number is too short
+    Given I use the native keyboard to enter "123456" into text field number 1
+    And I touch the "Validate" button
+    Then I see the text "Credit card number is too short."
+```
+
+Each feature test is contained in its own file and may have multiple scenarios. As can be seen above, the syntax is very similar to standard English. Please read the Gherkin link above to learn more about the syntax structure used.
+
+Although Calabash contains some predefined steps to use for testing (see Calabash predefined steps link above), it also supports custom steps (detailed under the section in the Calabash tutorial link titled *Creating a step definition*
+
+##### Running an Assertion Test
+
+With the current directory set to the directory containing feature tests, run the following command: TBD
 
 ### Contributors
 
@@ -56,5 +116,4 @@ TBD
 * Junoh @junohlee
 
 ### License
-
-*A short snippet describing the license (MIT, Apache, etc.)*
+None at this time
