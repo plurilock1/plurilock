@@ -5,6 +5,8 @@ import android.util.Log;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
+import org.json.JSONObject;
+import org.json.JSONException;
 
 /**
  *  Helper class for collecting device geographic data
@@ -20,6 +22,7 @@ public class CollectGeoInfo implements CollectDeviceContextData {
     private TimeZone timeZone;
     private long time;
     private String country;
+    private JSONObject deviceInfo;
 
     public CollectGeoInfo() {
         this.language = Locale.getDefault().getISO3Language();
@@ -27,13 +30,27 @@ public class CollectGeoInfo implements CollectDeviceContextData {
         this.timeZone = cal.getTimeZone();
         this.time = cal.getTimeInMillis();
         this.country = Locale.getDefault().getISO3Country();
+        this.deviceInfo = new JSONObject();
     }
 
-    public void collectDeviceInfo() {
-        Log.d(this.getLanguage(), "Language");
-        Log.d(this.getTimeZone().getID(), "Time_Zone");
-        Log.d(Long.toString(this.getTimeInMils()), "Time");
-        Log.d(this.getCountry(), "Country Code");
+    public JSONObject collectDeviceInfo() {
+        try {
+            deviceInfo.put("Language", this.getLanguage());
+            deviceInfo.put("Timezone", this.getTimeZone().getID());
+            deviceInfo.put("Time", this.getTimeInMils());
+            deviceInfo.put("CountryCode", this.getCountry());
+
+            Log.d(this.getLanguage(), "Language");
+            Log.d(this.getTimeZone().getID(), "Time_Zone");
+            Log.d(Long.toString(this.getTimeInMils()), "Time");
+            Log.d(this.getCountry(), "Country Code");
+
+            Log.d("TEST", deviceInfo.toString(2));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return deviceInfo;
     }
 
     public String getLanguage() { return language; }
