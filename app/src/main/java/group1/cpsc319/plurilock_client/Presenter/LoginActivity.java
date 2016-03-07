@@ -1,7 +1,6 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,17 +15,19 @@ public class LoginActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Make view from res/layout/activity_login.xml
+        // Create a view from res/layout/activity_login.xml.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final Button signInButton = (Button) findViewById(R.id.signInButton);
-        final Context context = this;
+        startAccountsActivity();
+    }
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
+    private void startAccountsActivity() {
+        Button buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
+
+        buttonSignIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Open Accounts page
-                Intent intent = new Intent(context, AccountsActivity.class);
+                Intent intent = new Intent(LoginActivity.this, AccountActivity.class);
                 startActivity(intent);
             }
         });
