@@ -3,7 +3,12 @@
     <string name="action_sign_out">Sign out</string>
     <string name="app_name">BioTracker</string>
     <string name="button_sign_in">SIGN IN</string>
+    <string name="content_description_logo">Logo</string>
     <string name="text_field_username">Username</string>
     <string name="text_field_password">Password</string>
+    <string name="text_view_about">BioTracker collects your key/touch/swipe/device data continuously to take action on attackers in real-time.</string>
+    <string name="text_view_account_type">Chequing</string>
+    <string name="text_view_bank_accounts">annkim\'s Bank Accounts</string>
+    <string name="text_view_transactions">Transactions</string>
 </resources>
 

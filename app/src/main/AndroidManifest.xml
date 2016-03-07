@@ -9,19 +9,29 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".Presenter.LoginActivity" >
+        <activity android:name=".Presenter.LoginActivity"
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:label="@string/app_name"
-            android:name=".Presenter.AccountsActivity" >
+        <activity android:label="@string/app_name"
+            android:name=".Presenter.AccountActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
         </activity>
-        <activity
-            android:label="@string/app_name"
-            android:name=".Presenter.TransactionsActivity" >
+        <activity android:label="@string/app_name"
+            android:name=".Presenter.TransactionActivity"
+            android:parentActivityName=".Presenter.AccountActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Presenter.AccountActivity" />
+        </activity>
+        <activity android:label="@string/app_name"
+            android:name=".Presenter.AboutActivity" >
         </activity>
     </application>
 
