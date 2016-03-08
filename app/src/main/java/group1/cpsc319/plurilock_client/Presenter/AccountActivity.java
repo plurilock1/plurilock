@@ -24,7 +24,7 @@ import group1.cpsc319.plurilock_client.R;
 /**
  * Created by anneunjungkim on 2016-02-27.
  */
-public class AccountActivity extends AppCompatActivity {
+public class AccountActivity extends GestureCompatActivity {
     private List<Account> myAccounts = new ArrayList<>();
 
     // Create a message handling object as an anonymous class.

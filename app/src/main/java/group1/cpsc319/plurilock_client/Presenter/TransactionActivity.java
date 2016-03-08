@@ -23,7 +23,7 @@ import group1.cpsc319.plurilock_client.R;
 /**
  * Created by anneunjungkim on 2016-02-27.
  */
-public class TransactionActivity extends AppCompatActivity {
+public class TransactionActivity extends GestureCompatActivity {
     private List<Transaction> myTransactions = new ArrayList<>();
 
     @Override
