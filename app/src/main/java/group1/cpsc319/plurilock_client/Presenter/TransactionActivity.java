@@ -5,11 +5,17 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+<<<<<<< HEAD
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+=======
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+>>>>>>> 65d68251d11f13021211d99cbb88a372ee3030e1
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -19,7 +25,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Touch.GestureListener;
+=======
+>>>>>>> 65d68251d11f13021211d99cbb88a372ee3030e1
 import group1.cpsc319.plurilock_client.Model.Transaction;
 import group1.cpsc319.plurilock_client.R;
 
@@ -28,7 +37,10 @@ import group1.cpsc319.plurilock_client.R;
  */
 public class TransactionActivity extends GestureCompatActivity {
     private List<Transaction> myTransactions = new ArrayList<>();
+<<<<<<< HEAD
     private GestureDetector gestureDetector;
+=======
+>>>>>>> 65d68251d11f13021211d99cbb88a372ee3030e1
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +120,7 @@ public class TransactionActivity extends GestureCompatActivity {
 
         ListView listViewBankAccounts = (ListView) findViewById(R.id.listViewAccountTransactions);
         listViewBankAccounts.setAdapter(adapter);
+<<<<<<< HEAD
 
         GestureListener listGestureDetector = new GestureListener();
 
@@ -121,12 +134,17 @@ public class TransactionActivity extends GestureCompatActivity {
                 return onTouchEvent(event);
             }
         });
+=======
+>>>>>>> 65d68251d11f13021211d99cbb88a372ee3030e1
     }
 
     private class MyArrayAdapter extends ArrayAdapter<Transaction> {
         public MyArrayAdapter() {
             super(TransactionActivity.this, R.layout.list_item_transaction, myTransactions);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 65d68251d11f13021211d99cbb88a372ee3030e1
         }
 
         @Override
@@ -155,5 +173,14 @@ public class TransactionActivity extends GestureCompatActivity {
 
             return itemView;
         }
+<<<<<<< HEAD
+=======
+
+        // Make all the list items not clickable.
+        @Override
+        public boolean isEnabled(int position) {
+            return false;
+        }
+>>>>>>> 65d68251d11f13021211d99cbb88a372ee3030e1
     }
 }
