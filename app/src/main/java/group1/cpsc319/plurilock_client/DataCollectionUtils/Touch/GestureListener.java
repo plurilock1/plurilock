@@ -13,22 +13,17 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
         implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener{
 
     public static final String TAG = "GestureListener";
-    public static final String TAG1 = "Duration";
-
 
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-        Log.i(TAG, "Single Tap Up" + coordination(e) + precision(e) + getTouchType(e));
-        Log.i(TAG1, "Single Tap Up" + abTime(e));
+        Log.i(TAG, "Single Tap Up" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
         return false;
     }
 
     @Override
     public void onLongPress(MotionEvent e) {
-        Log.i(TAG, "Long Press" + coordination(e) + precision(e) + getTouchType(e));
-        Log.i(TAG1, "Long Press" + abTime(e));
-
+        Log.i(TAG, "Long Press" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
     }
 
     @Override
@@ -47,33 +42,30 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
 
     @Override
     public void onShowPress(MotionEvent e) {
-        Log.i(TAG, "Show Press" + coordination(e) + precision(e) + getTouchType(e));
+        Log.i(TAG, "Show Press" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
     }
 
     @Override
     public boolean onDown(MotionEvent e) {
-        Log.i(TAG, "Down" + coordination(e) + precision(e) + getTouchType(e));
+        Log.i(TAG, "Down" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
         return false;
     }
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
-        Log.i(TAG, "Double tap" + coordination(e) + precision(e) + getTouchType(e));
-        Log.i(TAG, "Double tap" + abTime(e));
+        Log.i(TAG, "Double tap" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
         return false;
     }
 
     @Override
     public boolean onDoubleTapEvent(MotionEvent e) {
-        Log.i(TAG, "Event within double tap" + coordination(e) + precision(e) + getTouchType(e));
-        Log.i(TAG, "Event within double tap" + abTime(e));
+        Log.i(TAG, "Event within double tap" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
         return false;
     }
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
-        Log.i(TAG, "Single tap confirmed" + coordination(e) + precision(e) + getTouchType(e));
-        Log.i(TAG, "Single tap confirmed" + abTime(e));
+        Log.i(TAG, "Single tap confirmed" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
         return false;
     }
 

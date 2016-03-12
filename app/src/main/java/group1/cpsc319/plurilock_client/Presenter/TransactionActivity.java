@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import group1.cpsc319.plurilock_client.DataCollectionUtils.Touch.GestureListener;
 import group1.cpsc319.plurilock_client.Model.Transaction;
 import group1.cpsc319.plurilock_client.R;
 
@@ -25,6 +28,7 @@ import group1.cpsc319.plurilock_client.R;
  */
 public class TransactionActivity extends GestureCompatActivity {
     private List<Transaction> myTransactions = new ArrayList<>();
+    private GestureDetector gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,11 +108,25 @@ public class TransactionActivity extends GestureCompatActivity {
 
         ListView listViewBankAccounts = (ListView) findViewById(R.id.listViewAccountTransactions);
         listViewBankAccounts.setAdapter(adapter);
+
+        GestureListener listGestureDetector = new GestureListener();
+
+        gestureDetector = new GestureDetector(this, listGestureDetector);
+        gestureDetector.setOnDoubleTapListener(listGestureDetector);
+
+        listViewBankAccounts.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return onTouchEvent(event);
+            }
+        });
     }
 
     private class MyArrayAdapter extends ArrayAdapter<Transaction> {
         public MyArrayAdapter() {
             super(TransactionActivity.this, R.layout.list_item_transaction, myTransactions);
+
         }
 
         @Override
@@ -136,12 +154,6 @@ public class TransactionActivity extends GestureCompatActivity {
             textViewBalance.setText(currentTransaction.getAmount());
 
             return itemView;
-        }
-
-        // Make all the list items not clickable.
-        @Override
-        public boolean isEnabled(int position) {
-            return false;
         }
     }
 }

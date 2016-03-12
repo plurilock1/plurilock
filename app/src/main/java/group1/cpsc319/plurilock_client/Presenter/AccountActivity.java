@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import group1.cpsc319.plurilock_client.DataCollectionUtils.Touch.GestureListener;
 import group1.cpsc319.plurilock_client.Model.Account;
 import group1.cpsc319.plurilock_client.R;
 
@@ -26,6 +29,7 @@ import group1.cpsc319.plurilock_client.R;
  */
 public class AccountActivity extends GestureCompatActivity {
     private List<Account> myAccounts = new ArrayList<>();
+    private GestureDetector gestureDetector;
 
     // Create a message handling object as an anonymous class.
     private OnItemClickListener mMessageClickedHandler = new OnItemClickListener() {
@@ -106,6 +110,19 @@ public class AccountActivity extends GestureCompatActivity {
         listViewBankAccounts.setAdapter(adapter);
 
         listViewBankAccounts.setOnItemClickListener(mMessageClickedHandler);
+
+        GestureListener listGestureDetector = new GestureListener();
+
+        gestureDetector = new GestureDetector(this, listGestureDetector);
+        gestureDetector.setOnDoubleTapListener(listGestureDetector);
+
+        listViewBankAccounts.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return onTouchEvent(event);
+            }
+        });
     }
 
     private class MyArrayAdapter extends ArrayAdapter<Account> {
