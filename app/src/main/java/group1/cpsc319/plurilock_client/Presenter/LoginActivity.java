@@ -1,14 +1,13 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import group1.cpsc319.plurilock_client.R;
-import group1.cpsc319.plurilock_client.DataCollectionUtils.CollectGeoInfo;
-import group1.cpsc319.plurilock_client.DataCollectionUtils.CollectHardwareInfo;
+import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.CollectGeoInfo;
+import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.CollectHardwareInfo;
 
 
 /**
@@ -18,17 +17,19 @@ public class LoginActivity extends GestureActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Make view from res/layout/activity_login.xml
+        // Create a view from res/layout/activity_login.xml.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final Button signInButton = (Button) findViewById(R.id.signInButton);
-        final Context context = this;
+        startAccountsActivity();
+    }
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
+    private void startAccountsActivity() {
+        Button buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
+
+        buttonSignIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Open Accounts page
-                Intent intent = new Intent(context, AccountsActivity.class);
+                Intent intent = new Intent(LoginActivity.this, AccountActivity.class);
                 startActivity(intent);
             }
         });
@@ -37,7 +38,7 @@ public class LoginActivity extends GestureActivity {
         CollectGeoInfo geoInfo = new CollectGeoInfo();
         CollectHardwareInfo hardwareInfo = new CollectHardwareInfo(this);
 
-        geoInfo.logDeviceInfo();
-        hardwareInfo.logDeviceInfo();
+        geoInfo.collectDeviceInfo();
+        hardwareInfo.collectDeviceInfo();
     }
 }
