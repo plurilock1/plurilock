@@ -14,7 +14,6 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
 
     public static final String TAG = "GestureListener";
 
-
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
         Log.i(TAG, "Single Tap Up" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
@@ -72,8 +71,7 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
     private String coordination(MotionEvent e) {
         int x = (int)e.getX();
         int y = (int)e.getY();
-        String a = "(" + x + " , " + y + ")";
-        return a;
+        return "(" + x + " , " + y + ")";
     }
 
     private String scrollCoordination(MotionEvent e1, MotionEvent e2) {
@@ -82,30 +80,23 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
         int x2 = (int)e2.getX();
         int y2 = (int)e2.getY();
 
-        String a = "(" + (x2 - x1) + " , " + (y2 - y1) + ")";
-        return a;
+        return "(" + (x2 - x1) + " , " + (y2 - y1) + ")";
     }
 
     private String precision(MotionEvent e){
         int x = (int)e.getXPrecision();
         int y = (int)e.getYPrecision();
-        String s =  "(" + x + " , " + y + ")";
-        return s;
-
+        return "(" + x + " , " + y + ")";
     }
 
     //
     private String abTime(MotionEvent e) {
         long eventDuration = e.getEventTime() - e.getDownTime();
-        String time = "(" + eventDuration+ "ms)";
-        return time;
-
+        return "(" + eventDuration+ "ms)";
     }
 
 
     private static String getTouchType(MotionEvent e) {
-
-
         String touchTypeDescription = " ";
         int touchType = e.getToolType(0);
         if (touchType == 1) {
@@ -115,5 +106,4 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
         }
         return touchTypeDescription;
     }
-
 }

@@ -2,19 +2,12 @@ package group1.cpsc319.plurilock_client.Presenter;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-<<<<<<< HEAD
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-=======
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
->>>>>>> 65d68251d11f13021211d99cbb88a372ee3030e1
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,10 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< HEAD
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Touch.GestureListener;
-=======
->>>>>>> 65d68251d11f13021211d99cbb88a372ee3030e1
 import group1.cpsc319.plurilock_client.Model.Account;
 import group1.cpsc319.plurilock_client.R;
 
@@ -38,10 +28,7 @@ import group1.cpsc319.plurilock_client.R;
  */
 public class AccountActivity extends GestureCompatActivity {
     private List<Account> myAccounts = new ArrayList<>();
-<<<<<<< HEAD
     private GestureDetector gestureDetector;
-=======
->>>>>>> 65d68251d11f13021211d99cbb88a372ee3030e1
 
     // Create a message handling object as an anonymous class.
     private OnItemClickListener mMessageClickedHandler = new OnItemClickListener() {
@@ -122,7 +109,6 @@ public class AccountActivity extends GestureCompatActivity {
         listViewBankAccounts.setAdapter(adapter);
 
         listViewBankAccounts.setOnItemClickListener(mMessageClickedHandler);
-<<<<<<< HEAD
 
         GestureListener listGestureDetector = new GestureListener();
 
@@ -136,8 +122,6 @@ public class AccountActivity extends GestureCompatActivity {
                 return onTouchEvent(event);
             }
         });
-=======
->>>>>>> 65d68251d11f13021211d99cbb88a372ee3030e1
     }
 
     private class MyArrayAdapter extends ArrayAdapter<Account> {
