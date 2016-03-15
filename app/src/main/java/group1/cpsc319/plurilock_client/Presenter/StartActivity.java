@@ -1,6 +1,5 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
-import android.support.v7.app.AppCompatActivity;
 import group1.cpsc319.plurilock_client.Model.User;
 
 import android.os.Bundle;
@@ -9,7 +8,8 @@ import android.widget.TextView;
 import android.widget.Button;
 import group1.cpsc319.plurilock_client.R;
 
-public class StartActivity extends AppCompatActivity {
+
+public class StartActivity extends GestureCompatActivity {
     private User test;
     private TextView tv;
 
@@ -28,12 +28,5 @@ public class StartActivity extends AppCompatActivity {
                 tv.setText("You clicked the button!");
             }
         });
-
-        // Grab Device Specific Info at Startup
-        GeoInfoRetriever geoInfo = new GeoInfoRetriever();
-        HardwareInfoRetriever hardwareInfo = new HardwareInfoRetriever(this);
-
-        geoInfo.logDeviceInfo();
-        hardwareInfo.logDeviceInfo();
     }
 }
