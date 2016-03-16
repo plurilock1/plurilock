@@ -21,10 +21,10 @@ public class LoginActivity extends GestureActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        startAccountsActivity();
+        startAccountActivity();
     }
 
-    private void startAccountsActivity() {
+    private void startAccountActivity() {
         Button buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
 
         buttonSignIn.setOnClickListener(new View.OnClickListener() {

@@ -17,18 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:label="@string/app_name"
-            android:name=".Presenter.AccountActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-        <activity android:label="@string/app_name"
-            android:name=".Presenter.TransactionActivity"
-            android:parentActivityName=".Presenter.AccountActivity" >
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Presenter.AccountActivity" />
+            android:name=".Presenter.MainActivity" >
         </activity>
         <activity android:label="@string/app_name"
             android:name=".Presenter.AboutActivity" >
