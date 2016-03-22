@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,7 +14,7 @@ import group1.cpsc319.plurilock_client.R;
 /**
  * Created by anneunjungkim on 2016-02-27.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends GestureCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

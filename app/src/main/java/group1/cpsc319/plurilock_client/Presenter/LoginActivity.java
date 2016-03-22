@@ -29,7 +29,7 @@ public class LoginActivity extends GestureActivity {
 
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, AccountActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
