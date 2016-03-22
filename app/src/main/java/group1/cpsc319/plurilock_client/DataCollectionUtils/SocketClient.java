@@ -2,6 +2,7 @@ package group1.cpsc319.plurilock_client.DataCollectionUtils;
 
 import android.util.Log;
 
+import org.java_websocket.WebSocket;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -34,7 +35,11 @@ public class SocketClient {
     }
 
     public void sendMessage(String s) {
-        mWebSocketClient.send(s);
+        if (mWebSocketClient.getReadyState() == WebSocket.READYSTATE.OPEN) {
+            mWebSocketClient.send(s);
+        } else {
+            Log.i("Websocket", "Not connected yet. Inserting into cache."); // TODO: insert into cache
+        }
     }
 
     private void connectWebSocket() {
