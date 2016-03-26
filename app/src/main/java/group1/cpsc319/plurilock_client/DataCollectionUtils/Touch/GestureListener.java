@@ -3,7 +3,7 @@ package group1.cpsc319.plurilock_client.DataCollectionUtils.Touch;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.util.Log;
-
+import group1.cpsc319.plurilock_client.Model.DataManager;
 
 /**
  * Created by BK on 16-02-29.
@@ -14,21 +14,27 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
 
     public static final String TAG = "GestureListener";
 
+    private static DataManager dataManager = DataManager.getInstance();
+
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
         Log.i(TAG, "Single Tap Up" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+        dataManager.sendTouchData(e);
         return false;
     }
 
     @Override
     public void onLongPress(MotionEvent e) {
         Log.i(TAG, "Long Press" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+        dataManager.sendTouchData(e);
     }
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
                             float distanceY){
         Log.i(TAG, "Scroll" + scrollCoordination(e1, e2) + getTouchType(e1));
+        dataManager.sendTouchData(e1);
+        dataManager.sendTouchData(e2);
         return false;
     }
 
@@ -36,6 +42,8 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                            float velocityY) {
         Log.i(TAG, "Fling" + scrollCoordination(e1, e2) + getTouchType(e1));
+        dataManager.sendTouchData(e1);
+        dataManager.sendTouchData(e2);
         return false;
     }
 
@@ -47,24 +55,28 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
     @Override
     public boolean onDown(MotionEvent e) {
         Log.i(TAG, "Down" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+        dataManager.sendTouchData(e);
         return false;
     }
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
         Log.i(TAG, "Double tap" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+        dataManager.sendTouchData(e);
         return false;
     }
 
     @Override
     public boolean onDoubleTapEvent(MotionEvent e) {
         Log.i(TAG, "Event within double tap" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+        dataManager.sendTouchData(e);
         return false;
     }
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
         Log.i(TAG, "Single tap confirmed" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+        dataManager.sendTouchData(e);
         return false;
     }
 
