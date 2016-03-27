@@ -40,12 +40,7 @@ public class CollectGeoInfo implements CollectDeviceContextData {
             deviceInfo.put("Time", this.getTimeInMils());
             deviceInfo.put("CountryCode", this.getCountry());
 
-            Log.d(this.getLanguage(), "Language");
-            Log.d(this.getTimeZone().getID(), "Time_Zone");
-            Log.d(Long.toString(this.getTimeInMils()), "Time");
-            Log.d(this.getCountry(), "Country Code");
-
-            Log.d("TEST", deviceInfo.toString(2));
+            Log.d("Geo Info", deviceInfo.toString(2));
         } catch (JSONException e) {
             e.printStackTrace();
         }
