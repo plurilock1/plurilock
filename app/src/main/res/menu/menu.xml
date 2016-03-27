@@ -9,6 +9,11 @@
         android:title="@string/action_about"
         app:showAsAction="ifRoom"/>
 
+    <!-- Feedback, should always be in the overflow -->
+    <item android:id="@+id/action_feedback"
+        android:title="@string/action_feedback"
+        app:showAsAction="never"/>
+
     <!-- Sign out, should always be in the overflow -->
     <item android:id="@+id/action_sign_out"
         android:title="@string/action_sign_out"

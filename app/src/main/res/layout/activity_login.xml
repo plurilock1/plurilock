@@ -33,7 +33,8 @@
         android:layout_marginTop="40dp"
         android:paddingBottom="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginRight="20dp"
+        android:textColorHint="#bfbfc0" />
 
     <EditText
         android:layout_width="match_parent"
@@ -45,7 +46,8 @@
         android:paddingBottom="20dp"
         android:fontFamily="Roboto"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginRight="20dp"
+        android:textColorHint="#bfbfc0" />
 
     <Button
         android:layout_width="wrap_content"
