@@ -3,6 +3,8 @@ package group1.cpsc319.plurilock_client.Model;
 import android.view.MotionEvent;
 import java.util.LinkedList;
 import android.util.Log;
+import net.sf.ehcache.*;
+
 
 /**
  * Created by Johnny on 2016-03-07.
@@ -16,9 +18,7 @@ public class DataManager {
     // Save 10 events in cache before sending
     private static final int MAX_CACHE_COUNTER = 10;
 
-    private int cacheCounter = 0;
-
-    private LinkedList<MotionEvent> touchDataCache = new LinkedList<MotionEvent>();
+    private Cache touchDataCache = CacheManager.getInstance().getCache("touchDataCache");
 
     private DataManager() {}
 
@@ -26,8 +26,9 @@ public class DataManager {
         return ourInstance;
     }
 
-    public synchronized void sendTouchData(MotionEvent me) {
+    public void sendTouchData(MotionEvent me) {
         addToTouchDataCache(me);
+        int cacheCounter = touchDataCache.getKeysNoDuplicateCheck().size();
         Log.i(TAG, "sendTouchData: " + me.toString());
         Log.i(TAG, "cacheCounter = " + cacheCounter);
         if (cacheCounter >= MAX_CACHE_COUNTER) {
@@ -37,18 +38,16 @@ public class DataManager {
 
     private void addToTouchDataCache(MotionEvent me) {
 
-        touchDataCache.add(me);
-        cacheCounter++;
+        touchDataCache.put(new Element(me.getEventTime(), me));
         Log.i(TAG, "addToTouchDataCache: " + me.toString());
-        Log.i(TAG, "cacheCounter = " + cacheCounter);
+        Log.i(TAG, "cacheCounter = " + touchDataCache.getKeysNoDuplicateCheck().size());
     }
 
     // Only call this if the data is successfully sent to the server!
     private void clearTouchDataCache() {
-        touchDataCache.clear();
-        cacheCounter = 0;
+        touchDataCache.removeAll();
         Log.i(TAG, "clearTouchDataCache");
-        Log.i(TAG, "cacheCounter = " + cacheCounter);
+        Log.i(TAG, "cacheCounter = " + touchDataCache.getKeysNoDuplicateCheck().size());
     }
 
     private void sendDataToServer() {
