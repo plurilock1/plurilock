@@ -1,0 +1,15 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="ehcache.xsd"
+    updateCheck="true" monitoring="autodetect"
+    dynamicConfig="true">
+
+    <cache name="touchDataCache"
+        eternal="true"
+        maxBytesLocalHeap="50m"
+        maxBytesLocalDisk="0m"
+        memoryStoreEvictionPolicy="FIFO"
+        transactionalMode="off">
+        <persistence strategy="none"/>
+    </cache>
+
+</ehcache>
