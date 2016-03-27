@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import group1.cpsc319.plurilock_client.R;
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.CollectGeoInfo;
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.CollectHardwareInfo;
+import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.GPSTracker;
+import group1.cpsc319.plurilock_client.R;
 
 
 /**
@@ -34,11 +35,17 @@ public class LoginActivity extends GestureActivity {
             }
         });
 
+        // Initialize GPS Location Service instance
+        GPSTracker gpsTracker = GPSTracker.getGPSTracker(this);
+
         // Grab Device Specific Info at Startup
-        CollectGeoInfo geoInfo = new CollectGeoInfo();
+        CollectGeoInfo geoInfo = new CollectGeoInfo(gpsTracker);
         CollectHardwareInfo hardwareInfo = new CollectHardwareInfo(this);
 
         geoInfo.collectDeviceInfo();
         hardwareInfo.collectDeviceInfo();
+
+        // Terminate GPS Location Services
+        gpsTracker.stopGPSTracker(this);
     }
 }

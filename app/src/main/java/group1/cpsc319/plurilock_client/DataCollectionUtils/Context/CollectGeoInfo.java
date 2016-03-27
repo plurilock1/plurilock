@@ -2,17 +2,15 @@ package group1.cpsc319.plurilock_client.DataCollectionUtils.Context;
 
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
-import org.json.JSONObject;
-import org.json.JSONException;
 
 /**
  *  Helper class for collecting device geographic data
- *
- *  TODO: Investigate how/when to retrieve
- *  - Location: lat/lon
  *
  * Created by Junoh on 2/27/2016.
  */
@@ -22,14 +20,18 @@ public class CollectGeoInfo implements CollectDeviceContextData {
     private TimeZone timeZone;
     private long time;
     private String country;
+    private double latitude;
+    private double longitude;
     private JSONObject deviceInfo;
 
-    public CollectGeoInfo() {
+    public CollectGeoInfo(GPSTracker gpsTracker) {
         this.language = Locale.getDefault().getISO3Language();
         Calendar cal = Calendar.getInstance();
         this.timeZone = cal.getTimeZone();
         this.time = cal.getTimeInMillis();
         this.country = Locale.getDefault().getISO3Country();
+        this.latitude = gpsTracker.getLatitude();
+        this.longitude = gpsTracker.getLongitude();
         this.deviceInfo = new JSONObject();
     }
 
@@ -39,12 +41,13 @@ public class CollectGeoInfo implements CollectDeviceContextData {
             deviceInfo.put("Timezone", this.getTimeZone().getID());
             deviceInfo.put("Time", this.getTimeInMils());
             deviceInfo.put("CountryCode", this.getCountry());
+            deviceInfo.put("Latitude", this.getLatitude());
+            deviceInfo.put("Longitude", this.getLongitude());
 
             Log.d("Geo Info", deviceInfo.toString(2));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return deviceInfo;
     }
 
@@ -59,4 +62,8 @@ public class CollectGeoInfo implements CollectDeviceContextData {
     public String getCountry() {
         return country;
     }
+
+    public double getLatitude() { return latitude; }
+
+    public double getLongitude() { return longitude; }
 }
