@@ -20,7 +20,7 @@ import android.util.Log;
 /**
  * Singleton class for enabling GPS tracking
  *
- * To use, (1) generate an instance of the tracker @see getGPSTracker
+ * To use, (1) generate an instance of the tracker @see getInstance
  *         (2) set it to listen for updates at the appropriate intervals (time and distance)
  *         (3) stop tracker when it is no longer required @see stopGPSTracker
  *
@@ -33,6 +33,8 @@ import android.util.Log;
  * Created by Junoh on 03/26/2016.
  */
 public class GPSTracker extends Service implements LocationListener {
+    
+    private static final String TAG = "GPSTracker";
 
     // The minimum distance to change updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
@@ -42,6 +44,8 @@ public class GPSTracker extends Service implements LocationListener {
 
     // Singleton instance
     private static GPSTracker instance = null;
+
+    private static Activity activity;
 
     // Flag for GPS status
     private boolean isGPSEnabled = false;
@@ -63,7 +67,7 @@ public class GPSTracker extends Service implements LocationListener {
     /**
      * Singleton getter
      */
-    public static GPSTracker getGPSTracker(Activity activity) {
+    public static GPSTracker getInstance(Activity activity) {
         if (instance == null) {
             instance = new GPSTracker(activity);
         }
@@ -75,7 +79,7 @@ public class GPSTracker extends Service implements LocationListener {
      */
     private GPSTracker(Activity activity) {
         initLocationService(activity);
-        Log.d(this.toString(), "GPSTracker created");
+        Log.d(TAG, "GPSTracker created");
     }
 
     /**
@@ -83,64 +87,68 @@ public class GPSTracker extends Service implements LocationListener {
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private void initLocationService(Activity activity) {
-        Log.d(this.toString(), "Initializing GPSTracker coordinates");
-        // Check permissions from the user
-        if (Build.VERSION.SDK_INT >= 19 &&
-                ContextCompat.checkSelfPermission(activity, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.d(this.toString(), "No user permission granted");
-            ActivityCompat.requestPermissions(activity, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-        }
+        Log.d(TAG, "Initializing GPSTracker coordinates");
+        this.activity = activity;
 
-        try   {
-            // Initialize dummy lat lon values to UBC
-            // This is set for the demo environment since we will not be updating our lat/lon values there.
-            // Flexibility is still left to allow for updating lat/long values with this class.
-            this.longitude = 49.261138;
-            this.latitude = -123.247991;
-            this.locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+        // Check if there are location permissions.
+        if (Build.VERSION.SDK_INT >= 19 && ContextCompat.checkSelfPermission(activity,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        } else {
+            // else start the tracker
+            try   {
+                this.longitude = 0;
+                this.latitude = 0;
 
-            // Get GPS and network status
-            this.isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            this.isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                this.locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
 
-            if (!isNetworkEnabled && !isGPSEnabled)    {
-                // cannot get location
-                this.locationServiceAvailable = false;
-            } else {
-                this.locationServiceAvailable = true;
+                // Get GPS and network status
+                this.isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                this.isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-                if (isNetworkEnabled) {
-                    Log.d(this.toString(), "Network is Enabled");
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                            MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                    if (locationManager != null)   {
-                        this.location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        updateCoordinates();
-                    }
-                }//end if
+                if (!isNetworkEnabled && !isGPSEnabled)    {
+                    // cannot get location
+                    this.locationServiceAvailable = false;
+                } else {
+                    this.locationServiceAvailable = true;
 
-                if (isGPSEnabled)  {
-                    Log.d(this.toString(), "GPS is enabled");
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                            MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                    if (isNetworkEnabled) {
+                        Log.d(TAG, "Network is Enabled");
+                        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                                MIN_TIME_BW_UPDATES,
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                        if (locationManager != null)   {
+                            this.location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                            updateCoordinates();
+                        }
+                    }//end if
 
-                    if (locationManager != null)  {
-                        this.location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        updateCoordinates();
+                    if (isGPSEnabled)  {
+                        Log.d(TAG, "GPS is enabled");
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                                MIN_TIME_BW_UPDATES,
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+
+                        if (locationManager != null)  {
+                            this.location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            updateCoordinates();
+                        }
                     }
                 }
+            } catch (SecurityException ex)  {
+                Log.d("Error with GPSTracker: ", ex.getMessage());
             }
-        } catch (Exception ex)  {
-            Log.d("Error with GPSTracker: ", ex.getMessage());
         }
     }
 
-    // Callback functions for location updates.
+    /**
+     * Location listener call back functions
+     */
     @Override
     public void onLocationChanged(Location location) {
         this.location = location;
+        updateCoordinates();
+        Log.d(TAG, "Location updated");
     }
 
     @Override
@@ -165,16 +173,17 @@ public class GPSTracker extends Service implements LocationListener {
      * Stop using GPS listener
      * Calling this function will stop using GPS in your app
      * */
-    public void stopGPSTracker(Activity activity){
+    public void stopGPSTracker(){
         // Check permissions from the user
         if (Build.VERSION.SDK_INT >= 19 &&
-                ContextCompat.checkSelfPermission(activity, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(activity,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
 
         if(locationManager != null){
             locationManager.removeUpdates(GPSTracker.this);
-            Log.d(this.toString(), "GPSTracker service terminated");
+            Log.d(TAG, "GPSTracker service terminated");
         }
     }
 
