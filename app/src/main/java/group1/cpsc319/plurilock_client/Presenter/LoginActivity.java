@@ -25,6 +25,8 @@ public class LoginActivity extends GestureActivity {
 
     private GPSTracker gpsTracker;
 
+    private GPSTracker gpsTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Create a view from res/layout/activity_login.xml.
