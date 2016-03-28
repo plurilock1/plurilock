@@ -1,5 +1,6 @@
 package group1.cpsc319.plurilock_client.DataCollectionUtils.Context;
 
+import android.app.Activity;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -24,14 +25,17 @@ public class CollectGeoInfo implements CollectDeviceContextData {
     private double longitude;
     private JSONObject deviceInfo;
 
-    public CollectGeoInfo(GPSTracker gpsTracker) {
+    public CollectGeoInfo(Activity activity, GPSTracker gpsTracker) {
         this.language = Locale.getDefault().getISO3Language();
         Calendar cal = Calendar.getInstance();
         this.timeZone = cal.getTimeZone();
         this.time = cal.getTimeInMillis();
         this.country = Locale.getDefault().getISO3Country();
-        this.latitude = gpsTracker.getLatitude();
-        this.longitude = gpsTracker.getLongitude();
+
+        if (gpsTracker != null) {
+            this.latitude = gpsTracker.getLatitude();
+            this.longitude = gpsTracker.getLongitude();
+        }
         this.deviceInfo = new JSONObject();
     }
 
