@@ -1,4 +1,5 @@
 <resources>
+    <string name="action_abm_locator">ABM Locator</string>
     <string name="action_about">About</string>
     <string name="action_feedback">Feedback</string>
     <string name="action_sign_out">Sign out</string>
@@ -14,5 +15,6 @@
     <string name="text_view_account_type">Chequing</string>
     <string name="text_view_bank_accounts">annkim\'s Bank Accounts</string>
     <string name="text_view_transactions">Transactions</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
 
