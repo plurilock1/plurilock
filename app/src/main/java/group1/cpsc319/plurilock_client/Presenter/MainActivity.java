@@ -58,10 +58,16 @@ public class MainActivity extends GestureCompatActivity {
                 toFeedbackFragment();
                 return true;
 
+            case R.id.action_abm_locator:
+                // User chose the "ABM Locator" item, show the app about UI...
+                Intent intentABMLocator = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(intentABMLocator);
+                return true;
+
             case R.id.action_about:
                 // User chose the "About" item, show the app about UI...
-                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-                startActivity(intent);
+                Intent intentAbout = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(intentAbout);
                 return true;
 
             default:
