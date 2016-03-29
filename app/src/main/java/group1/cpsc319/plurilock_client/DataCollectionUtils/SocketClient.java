@@ -1,5 +1,7 @@
 package group1.cpsc319.plurilock_client.DataCollectionUtils;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import org.java_websocket.WebSocket;
@@ -10,10 +12,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import group1.cpsc319.plurilock_client.Presenter.LoginActivity;
 
 public class SocketClient {
 
     private static SocketClient instance = null;
+
+    private static Context context;
 
     protected SocketClient() {
         connectWebSocket();
@@ -23,6 +30,14 @@ public class SocketClient {
         if (instance == null) {
             instance = new SocketClient();
         }
+        return instance;
+    }
+
+    public static SocketClient getInstance(Context c) {
+        if (instance == null) {
+            instance = new SocketClient();
+        }
+        context = c;
         return instance;
     }
 
@@ -66,10 +81,16 @@ public class SocketClient {
                 Log.i("Websocket", s);
 
                 if (s.split("\\$", 2)[1].equalsIgnoreCase("lock")) {
-                    // call function to lock out user
-                    Log.i("Websocket", "Locked.");
-                    for (Object o : listeners) {
-                        //o.notify(s);
+                    Random rand = new Random();
+                    if (rand.nextInt(25) < 1) {
+                        // call function to lock out user
+                        Intent i = new Intent(context, LoginActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(i);
+                        Log.i("Websocket", "Locked.");
+                        for (Object o : listeners) {
+                            //o.notify(s);
+                        }
                     }
                 } else if (s.split("\\$", 2)[1].equalsIgnoreCase("ack")) {
                     Log.i("Websocket", "Acknowledged. Still authenticated.");
