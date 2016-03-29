@@ -45,7 +45,7 @@ public class SocketClient {
     private void connectWebSocket() {
         URI uri;
         try {
-            uri = new URI("ws://echo.websocket.org");
+            uri = new URI("ws://btdemo.plurilock.com:8095");
         } catch (URISyntaxException e) {
             e.printStackTrace();
             return;
