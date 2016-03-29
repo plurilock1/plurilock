@@ -37,6 +37,7 @@ public class SocketClient {
     public void sendMessage(String s) {
         if (mWebSocketClient.getReadyState() == WebSocket.READYSTATE.OPEN) {
             mWebSocketClient.send(s);
+            Log.i("Websocket", "Sending message: " + s);
         } else {
             Log.i("Websocket", "Not connected yet. Inserting into cache."); // TODO: insert into cache
         }
@@ -63,8 +64,15 @@ public class SocketClient {
                 final String message = s;
                 Log.i("Websocket", "Message received");
                 Log.i("Websocket", s);
-                for (Object o : listeners) {
-                    //o.notify(s);
+
+                if (s.split("\\$", 2)[1].equalsIgnoreCase("lock")) {
+                    // call function to lock out user
+                    Log.i("Websocket", "Locked.");
+                    for (Object o : listeners) {
+                        //o.notify(s);
+                    }
+                } else if (s.split("\\$", 2)[1].equalsIgnoreCase("ack")) {
+                    Log.i("Websocket", "Acknowledged. Still authenticated.");
                 }
             }
 
