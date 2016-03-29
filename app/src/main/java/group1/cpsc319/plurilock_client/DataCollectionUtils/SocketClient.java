@@ -85,7 +85,7 @@ public class SocketClient {
                     if (rand.nextInt(25) < 1) {
                         // call function to lock out user
                         Intent i = new Intent(context, LoginActivity.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         context.startActivity(i);
                         Log.i("Websocket", "Locked.");
                         for (Object o : listeners) {
