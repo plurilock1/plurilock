@@ -21,7 +21,13 @@ public class LoginActivity extends GestureActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        startAccountActivity();
+        // To make sure onCreate is called only once
+        // (Ann is suspecting that onCreate may be called more than once due to an Android bug,
+        // because Ann has seen fragments overlapping randomly):
+        if (savedInstanceState == null) {
+            startAccountActivity();
+        }
+
     }
 
     private void startAccountActivity() {
