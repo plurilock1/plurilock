@@ -4,15 +4,19 @@ import android.view.MotionEvent;
 import java.util.LinkedList;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-/**
- * Created by Johnny on 2016-03-07.
- */
+import group1.cpsc319.plurilock_client.DataCollectionUtils.SocketClient;
+
 public class DataManager {
 
     public static final String TAG = "DataManager";
 
     private static DataManager ourInstance = new DataManager();
+
+    private static SocketClient socketClient = SocketClient.getInstance();
 
     // Save 10 events in cache before sending
     private static final int MAX_CACHE_COUNTER = 10;
@@ -59,8 +63,39 @@ public class DataManager {
 
     private void sendDataToServer() {
         logTouchDataCacheInfo("sendDataToServer");
-        // TODO: Use James's send-to-server code when available
-        // If possible, use a callback to indicate whether data was successfully sent
+
+        JSONObject json = new JSONObject();
+
+        try {
+            json.put("btClientType", "mobile");
+            json.put("btClientVersion", "1.0");
+            json.put("userID", "CPSC319-Team-1");
+            json.put("domain", "testDomain");
+
+            JSONArray data = new JSONArray();
+            for (MotionEvent e : touchDataCache) {
+                JSONObject motionEventJson = new JSONObject();
+
+                motionEventJson.put("x", e.getX());
+                motionEventJson.put("y", e.getY());
+                motionEventJson.put("xPrecision", e.getXPrecision());
+                motionEventJson.put("yPrecision", e.getYPrecision());
+                motionEventJson.put("abTime", e.getEventTime() - e.getDownTime());
+                motionEventJson.put("touchType", e.getToolType(0));
+
+                data.put(motionEventJson);
+            }
+
+            json.put("data", data);
+
+            Log.i(TAG, "JSON: " + json.toString(2));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        socketClient.sendMessage(json.toString());
+
         clearTouchDataCache();
     }
 
