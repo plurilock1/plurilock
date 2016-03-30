@@ -28,7 +28,7 @@ public class MainActivity extends GestureCompatActivity {
         if (savedInstanceState == null) {
             createCustomToolbar();
             initializeAccountFragment();
-            SocketClient.getInstance(getApplicationContext());
+            SocketClient.getInstance(this);
         }
     }
 

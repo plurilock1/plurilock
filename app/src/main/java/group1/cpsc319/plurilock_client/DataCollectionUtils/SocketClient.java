@@ -1,8 +1,10 @@
 package group1.cpsc319.plurilock_client.DataCollectionUtils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.client.WebSocketClient;
@@ -20,6 +22,7 @@ public class SocketClient {
 
     private static SocketClient instance = null;
 
+    private static Activity activity;
     private static Context context;
 
     protected SocketClient() {
@@ -33,11 +36,12 @@ public class SocketClient {
         return instance;
     }
 
-    public static SocketClient getInstance(Context c) {
+    public static SocketClient getInstance(Activity a) {
         if (instance == null) {
             instance = new SocketClient();
         }
-        context = c;
+        activity = a;
+        context = a.getApplicationContext();
         return instance;
     }
 
@@ -83,14 +87,23 @@ public class SocketClient {
                 if (s.split("\\$", 2)[1].equalsIgnoreCase("lock")) {
                     Random rand = new Random();
                     if (rand.nextInt(25) < 1) {
+
+                        Log.i("Websocket", "Locked.");
+
+                        activity.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(context.getApplicationContext(), "Deauthenticated. Please log in again.", Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                        for (Object o : listeners) {
+                            //o.notify(s);
+                        }
+
                         // call function to lock out user
                         Intent i = new Intent(context, LoginActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         context.startActivity(i);
-                        Log.i("Websocket", "Locked.");
-                        for (Object o : listeners) {
-                            //o.notify(s);
-                        }
                     }
                 } else if (s.split("\\$", 2)[1].equalsIgnoreCase("ack")) {
                     Log.i("Websocket", "Acknowledged. Still authenticated.");
