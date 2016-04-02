@@ -2,6 +2,7 @@ package group1.cpsc319.plurilock_client.Presenter;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -37,6 +38,11 @@ public class LoginActivity extends GestureActivity {
         if (savedInstanceState == null) {
             startAccountActivity();
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig){
+        super.onConfigurationChanged(newConfig);
     }
 
     private void startAccountActivity() {
