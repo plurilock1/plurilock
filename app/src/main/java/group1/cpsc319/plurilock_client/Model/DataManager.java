@@ -94,9 +94,9 @@ public class DataManager {
             e.printStackTrace();
         }
 
-        socketClient.sendMessage(json.toString());
-
-        clearTouchDataCache();
+        if (socketClient.sendMessage(json.toString())) {
+            clearTouchDataCache();
+        }
     }
 
     private void logTouchDataCacheInfo(String source) {
