@@ -4,6 +4,10 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import group1.cpsc319.plurilock_client.Model.DataManager;
 
 /**
  * Created by BK on 16-02-29.
@@ -14,21 +18,27 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
 
     public static final String TAG = "GestureListener";
 
+    private static DataManager dataManager = DataManager.getInstance();
+
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
         Log.i(TAG, "Single Tap Up" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+        sendTouchData(e);
         return false;
     }
 
     @Override
     public void onLongPress(MotionEvent e) {
         Log.i(TAG, "Long Press" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+        sendTouchData(e);
     }
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
                             float distanceY){
         Log.i(TAG, "Scroll" + scrollCoordination(e1, e2) + getTouchType(e1));
+        sendTouchData(e1);
+        sendTouchData(e2);
         return false;
     }
 
@@ -36,6 +46,8 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                            float velocityY) {
         Log.i(TAG, "Fling" + scrollCoordination(e1, e2) + getTouchType(e1));
+        sendTouchData(e1);
+        sendTouchData(e2);
         return false;
     }
 
@@ -47,24 +59,28 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
     @Override
     public boolean onDown(MotionEvent e) {
         Log.i(TAG, "Down" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+        sendTouchData(e);
         return false;
     }
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
         Log.i(TAG, "Double tap" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+        sendTouchData(e);
         return false;
     }
 
     @Override
     public boolean onDoubleTapEvent(MotionEvent e) {
         Log.i(TAG, "Event within double tap" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+        sendTouchData(e);
         return false;
     }
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
         Log.i(TAG, "Single tap confirmed" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+        sendTouchData(e);
         return false;
     }
 
@@ -105,5 +121,26 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
             touchTypeDescription += "(unknown)";
         }
         return touchTypeDescription;
+    }
+
+    private void sendTouchData (MotionEvent e) {
+        try {
+            dataManager.sendData(toJSONObject(e), DataManager.TOUCH_DATA_CACHE);
+        } catch (JSONException ex) {
+            ex.printStackTrace();;
+        }
+    }
+
+    private JSONObject toJSONObject(MotionEvent e) throws JSONException {
+        JSONObject motionEventJson = new JSONObject();
+
+        motionEventJson.put("x", e.getX());
+        motionEventJson.put("y", e.getY());
+        motionEventJson.put("xPrecision", e.getXPrecision());
+        motionEventJson.put("yPrecision", e.getYPrecision());
+        motionEventJson.put("abTime", e.getEventTime() - e.getDownTime());
+        motionEventJson.put("touchType", e.getToolType(0));
+
+        return motionEventJson;
     }
 }

@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import group1.cpsc319.plurilock_client.DataCollectionUtils.SocketClient;
 import group1.cpsc319.plurilock_client.R;
 
 /**
@@ -21,8 +22,14 @@ public class MainActivity extends GestureCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accounts);
 
-        createCustomToolbar();
-        initializeAccountFragment();
+        // To make sure onCreate is called only once
+        // (Ann is suspecting that onCreate may be called more than once due to an Android bug,
+        // because Ann has seen fragments overlapping randomly):
+        if (savedInstanceState == null) {
+            createCustomToolbar();
+            initializeAccountFragment();
+            SocketClient.getInstance(this);
+        }
     }
 
     private void createCustomToolbar() {
@@ -53,10 +60,16 @@ public class MainActivity extends GestureCompatActivity {
                 toFeedbackFragment();
                 return true;
 
+            case R.id.action_abm_locator:
+                // User chose the "ABM Locator" item, show the app about UI...
+                Intent intentABMLocator = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(intentABMLocator);
+                return true;
+
             case R.id.action_about:
                 // User chose the "About" item, show the app about UI...
-                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-                startActivity(intent);
+                Intent intentAbout = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(intentAbout);
                 return true;
 
             default:

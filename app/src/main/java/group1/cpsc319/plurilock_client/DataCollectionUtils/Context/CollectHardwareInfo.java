@@ -64,16 +64,7 @@ public class CollectHardwareInfo implements CollectDeviceContextData {
             deviceInfo.put("ScreenWidth", this.getScreenWidth());
             deviceInfo.put("ScreenHeight", this.getScreenHeight());
 
-            Log.d(Build.PRODUCT, "Product");
-            Log.d(Build.BRAND, "Brand");
-            Log.d(this.getModel(), "Model");
-            Log.d(this.getManufacturer(), "Manufacturer");
-            Log.d(Integer.toString(this.getNumberOfCores()), "Number of Cores");
-            Log.d(Integer.toString(this.getSdkVersion()), "SDK_Version");
-            Log.d(Integer.toString(this.getScreenWidth()), "Screen_Width");
-            Log.d(Integer.toString(this.getScreenHeight()), "Screen_Height");
-
-            Log.d("TEST", deviceInfo.toString(2));
+            Log.d("Hardware Info", deviceInfo.toString(2));
         } catch (JSONException e) {
             e.printStackTrace();
         }
