@@ -14,6 +14,9 @@ public class DataManager {
 
     public static final String TAG = "DataManager";
 
+    public static final String TOUCH_DATA_CACHE = "touch data";
+    public static final String KEY_DATA_CACHE = "key data";
+
     private static DataManager ourInstance = new DataManager();
 
     private static SocketClient socketClient = SocketClient.getInstance();
@@ -23,9 +26,13 @@ public class DataManager {
 
     private static final int MAX_CACHE_SIZE = 1000;
 
-    private int cacheCounter = 0;
+    private int touchDataCacheCounter = 0;
+    private JSONArray touchDataCache = new JSONArray();
 
-    private LinkedList<MotionEvent> touchDataCache = new LinkedList<MotionEvent>();
+    private int keyDataCacheCounter = 0;
+    private JSONArray keyDataCache = new JSONArray();
+
+    private JSONArray currCache;
 
     private DataManager() {}
 
@@ -33,36 +40,77 @@ public class DataManager {
         return ourInstance;
     }
 
-    public synchronized void sendTouchData(MotionEvent me) {
-        addToTouchDataCache(me);
+    public synchronized void sendData(JSONObject obj, String cacheTag) {
 
-        Log.i(TAG, "sendTouchData: " + me.toString());
-        logTouchDataCacheInfo("sendTouchData");
+        try {
+            addToCache(obj, cacheTag);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.i(TAG, "sendData (" + cacheTag + "): " + obj.toString());
+        logCacheInfo("sendData (" + cacheTag + ")", cacheTag);
+
+        int cacheCounter;
+        switch (cacheTag) {
+            case TOUCH_DATA_CACHE:
+                cacheCounter = touchDataCacheCounter;
+                break;
+            case KEY_DATA_CACHE:
+                cacheCounter = keyDataCacheCounter;
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
 
         if (cacheCounter >= MAX_CACHE_COUNTER) {
-            sendDataToServer();
+            sendDataToServer(cacheTag);
         }
     }
 
-    private void addToTouchDataCache(MotionEvent me) {
+    private synchronized void addToCache(JSONObject obj, String cacheTag) throws JSONException {
 
-        while (touchDataCache.size() > MAX_CACHE_SIZE) {
-            touchDataCache.poll();
+        setCurrCache(cacheTag);
+
+        while (currCache.length() > MAX_CACHE_SIZE) {
+            currCache.remove(0);
         }
-        touchDataCache.add(me);
-        cacheCounter++;
-        logTouchDataCacheInfo("addToTouchDataCache");
+        currCache.put(obj);
+        switch (cacheTag) {
+            case TOUCH_DATA_CACHE:
+                touchDataCacheCounter++;
+                break;
+            case KEY_DATA_CACHE:
+                keyDataCacheCounter++;
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+        logCacheInfo("addToCache (" + cacheTag + ")", cacheTag);
     }
 
     // Only call this if the data is successfully sent to the server!
-    private void clearTouchDataCache() {
-        touchDataCache.clear();
-        cacheCounter = 0;
-        logTouchDataCacheInfo("clearTouchDataCache");
+    private synchronized void clearCache(String cacheTag) {
+
+        switch (cacheTag) {
+            case TOUCH_DATA_CACHE:
+                touchDataCache = new JSONArray();
+                touchDataCacheCounter = 0;
+                break;
+            case KEY_DATA_CACHE:
+                keyDataCache = new JSONArray();
+                keyDataCacheCounter = 0;
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+        logCacheInfo("clearCache (" + cacheTag + ")", cacheTag);
     }
 
-    private void sendDataToServer() {
-        logTouchDataCacheInfo("sendDataToServer");
+    private synchronized void sendDataToServer(String cacheTag) {
+        logCacheInfo("sendDataToServer", cacheTag);
+
+        setCurrCache(cacheTag);
 
         JSONObject json = new JSONObject();
 
@@ -72,21 +120,7 @@ public class DataManager {
             json.put("userID", "CPSC319-Team-1");
             json.put("domain", "testDomain");
 
-            JSONArray data = new JSONArray();
-            for (MotionEvent e : touchDataCache) {
-                JSONObject motionEventJson = new JSONObject();
-
-                motionEventJson.put("x", e.getX());
-                motionEventJson.put("y", e.getY());
-                motionEventJson.put("xPrecision", e.getXPrecision());
-                motionEventJson.put("yPrecision", e.getYPrecision());
-                motionEventJson.put("abTime", e.getEventTime() - e.getDownTime());
-                motionEventJson.put("touchType", e.getToolType(0));
-
-                data.put(motionEventJson);
-            }
-
-            json.put("data", data);
+            json.put("data", currCache);
 
             Log.i(TAG, "JSON: " + json.toString(2));
 
@@ -95,13 +129,38 @@ public class DataManager {
         }
 
         if (socketClient.sendMessage(json.toString())) {
-            clearTouchDataCache();
+            clearCache(cacheTag);
         }
     }
 
-    private void logTouchDataCacheInfo(String source) {
+    private synchronized void setCurrCache(String cacheTag) {
+        switch (cacheTag) {
+            case TOUCH_DATA_CACHE:
+                currCache = touchDataCache;
+                break;
+            case KEY_DATA_CACHE:
+                currCache = keyDataCache;
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    private synchronized void logCacheInfo(String source, String cacheTag) {
         Log.i(TAG, source);
-        Log.i(TAG, "cacheCounter = " + cacheCounter);
-        Log.i(TAG, "cacheSize = " + touchDataCache.size());
+        switch (cacheTag) {
+            case TOUCH_DATA_CACHE:
+                Log.i(TAG, "touchDataCacheCounter = " + touchDataCacheCounter);
+                Log.i(TAG, "touchDataCacheSize = " + touchDataCache.length());
+                break;
+            case KEY_DATA_CACHE:
+                Log.i(TAG, "keyDataCacheCounter = " + keyDataCacheCounter);
+                Log.i(TAG, "keyDataCacheSize = " + keyDataCache.length());
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+
+
     }
 }

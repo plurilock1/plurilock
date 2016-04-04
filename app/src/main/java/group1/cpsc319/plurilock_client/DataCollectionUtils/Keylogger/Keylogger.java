@@ -11,15 +11,15 @@ import android.widget.TextView.OnEditorActionListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import group1.cpsc319.plurilock_client.Model.DataManager;
+
 
 public class Keylogger implements TextWatcher, OnEditorActionListener {
     private static Keylogger instance;
     private static final String TAG = "Keylogger";
-    private JSONObject obj;
+    private static DataManager dataManager = DataManager.getInstance();
 
-    private Keylogger() {
-        obj = new JSONObject();
-    }
+    private Keylogger() {}
 
     public static Keylogger getInstance() {
         if (instance == null) {
@@ -30,6 +30,7 @@ public class Keylogger implements TextWatcher, OnEditorActionListener {
     }
 
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        JSONObject obj = new JSONObject();
         try {
             if (count < before) {
                 obj.put("keyPressed", "backspace");
@@ -39,12 +40,14 @@ public class Keylogger implements TextWatcher, OnEditorActionListener {
 
             obj.put("timestamp", System.currentTimeMillis());
             Log.d(TAG, obj.toString());
+            dataManager.sendData(obj, DataManager.KEY_DATA_CACHE);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        JSONObject obj = new JSONObject();
         try {
             if (actionId == EditorInfo.IME_ACTION_DONE ||
                     actionId == EditorInfo.IME_ACTION_GO ||
@@ -53,6 +56,7 @@ public class Keylogger implements TextWatcher, OnEditorActionListener {
                 obj.put("keyPressed", "enter");
                 obj.put("timestamp", System.currentTimeMillis());
                 Log.d(TAG, obj.toString());
+                dataManager.sendData(obj, DataManager.KEY_DATA_CACHE);
             }
         } catch(JSONException e) {
             e.printStackTrace();
