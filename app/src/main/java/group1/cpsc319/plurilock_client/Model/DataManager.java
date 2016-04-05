@@ -13,6 +13,8 @@ public class DataManager {
     public static final String TAG = "DataManager";
     public static final String TOUCH_DATA = "touch data";
     public static final String KEY_DATA = "key data";
+    public static final String HARDWARE_DATA = "hardware data";
+    public static final String GEO_DATA = "geographic data";
 
     // Singleton Instance
     private static DataManager ourInstance = new DataManager();
