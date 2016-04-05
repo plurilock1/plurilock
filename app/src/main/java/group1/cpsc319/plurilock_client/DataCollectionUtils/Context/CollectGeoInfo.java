@@ -1,7 +1,6 @@
 package group1.cpsc319.plurilock_client.DataCollectionUtils.Context;
 
 import android.app.Activity;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +9,8 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import group1.cpsc319.plurilock_client.Model.DataManager;
+
 /**
  *  Helper class for collecting device geographic data
  *
@@ -17,13 +18,13 @@ import java.util.TimeZone;
  */
 public class CollectGeoInfo implements CollectDeviceContextData {
 
+    private static DataManager dataManager = DataManager.getInstance();
     private String language;
     private TimeZone timeZone;
     private long time;
     private String country;
     private double latitude;
     private double longitude;
-    private JSONObject deviceInfo;
 
     public CollectGeoInfo(Activity activity, GPSTracker gpsTracker) {
         this.language = Locale.getDefault().getISO3Language();
@@ -36,23 +37,21 @@ public class CollectGeoInfo implements CollectDeviceContextData {
             this.latitude = gpsTracker.getLatitude();
             this.longitude = gpsTracker.getLongitude();
         }
-        this.deviceInfo = new JSONObject();
     }
 
-    public JSONObject collectDeviceInfo() {
+    public void collectDeviceInfo() {
+        JSONObject geoInfo = new JSONObject();
         try {
-            deviceInfo.put("Language", this.getLanguage());
-            deviceInfo.put("Timezone", this.getTimeZone().getID());
-            deviceInfo.put("Time", this.getTimeInMils());
-            deviceInfo.put("CountryCode", this.getCountry());
-            deviceInfo.put("Latitude", this.getLatitude());
-            deviceInfo.put("Longitude", this.getLongitude());
-
-            Log.d("Geo Info", deviceInfo.toString(2));
+            geoInfo.put("Language", this.getLanguage());
+            geoInfo.put("Timezone", this.getTimeZone().getID());
+            geoInfo.put("Time", this.getTimeInMils());
+            geoInfo.put("CountryCode", this.getCountry());
+            geoInfo.put("Latitude", this.getLatitude());
+            geoInfo.put("Longitude", this.getLongitude());
+            dataManager.sendData(geoInfo, DataManager.GEO_DATA);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return deviceInfo;
     }
 
     public String getLanguage() { return language; }

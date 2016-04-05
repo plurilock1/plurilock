@@ -1,7 +1,5 @@
 package group1.cpsc319.plurilock_client.DataCollectionUtils.Context;
 
-import org.json.JSONObject;
-
 /**
  * Generic Interface for classes that retrieve device specific data
  *
@@ -10,5 +8,5 @@ import org.json.JSONObject;
  */
 public interface CollectDeviceContextData {
 
-    public JSONObject collectDeviceInfo();
+    public void collectDeviceInfo();
 }
