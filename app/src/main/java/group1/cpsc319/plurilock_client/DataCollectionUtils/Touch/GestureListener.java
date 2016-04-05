@@ -125,7 +125,7 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
 
     private void sendTouchData (MotionEvent e) {
         try {
-            dataManager.sendData(toJSONObject(e), DataManager.TOUCH_DATA_CACHE);
+            dataManager.sendData(toJSONObject(e), DataManager.TOUCH_DATA);
         } catch (JSONException ex) {
             ex.printStackTrace();;
         }

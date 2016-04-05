@@ -22,7 +22,6 @@ import group1.cpsc319.plurilock_client.Presenter.LoginActivity;
 public class SocketClient {
 
     private static SocketClient instance = null;
-
     private static Activity activity;
     private static Context context;
 
@@ -45,7 +44,6 @@ public class SocketClient {
         context = a.getApplicationContext();
         return instance;
     }
-
 
     private WebSocketClient mWebSocketClient;
     private List<Object> listeners = new ArrayList<Object>();
