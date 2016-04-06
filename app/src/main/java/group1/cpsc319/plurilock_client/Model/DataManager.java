@@ -6,20 +6,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import group1.cpsc319.plurilock_client.DataCollectionUtils.SocketClient;
 
 public class DataManager {
 
     public static final String TAG = "DataManager";
-    public static final String TOUCH_DATA = "touch data";
-    public static final String KEY_DATA = "key data";
-    public static final String HARDWARE_DATA = "hardware data";
-    public static final String GEO_DATA = "geographic data";
 
     // Singleton Instance
     private static DataManager ourInstance = new DataManager();
 
     private static SocketClient socketClient = SocketClient.getInstance();
+
+    private static final Map<String, String> APP_DATA_JSON;
 
     // Save 10 events in cache before sending
     private static final int MAX_CACHE_COUNTER = 10;
@@ -29,52 +30,56 @@ public class DataManager {
     private int dataCacheCounter = 0;
     private JSONArray dataCache = new JSONArray();
 
+    static {
+        APP_DATA_JSON = new HashMap<String, String>();
+        APP_DATA_JSON.put("btClientType", "mobile");
+        APP_DATA_JSON.put("btClientVersion", "1.0");
+        APP_DATA_JSON.put("userID", "CPSC319-Team-1");
+        APP_DATA_JSON.put("domain", "testDomain");
+    }
+
     private DataManager() {}
 
     public static DataManager getInstance() {
         return ourInstance;
     }
 
-    public synchronized void sendData(JSONObject obj, String cacheTag) {
+    public synchronized void sendData(JSONObject obj) {
         try {
-            addToCache(obj, cacheTag);
+            addToCache(obj);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        Log.i(TAG, "sendData (" + cacheTag + "): " + obj.toString());
-        logCacheInfo("sendData (" + cacheTag + ")", cacheTag);
+        Log.i(TAG, "sendData: " + obj.toString());
+        logCacheInfo("sendData");
 
         if (dataCacheCounter >= MAX_CACHE_COUNTER) {
-            sendDataToServer(cacheTag);
+            sendDataToServer();
         }
     }
 
-    private synchronized void addToCache(JSONObject obj, String cacheTag) throws JSONException {
+    private synchronized void addToCache(JSONObject obj) throws JSONException {
         while (dataCache.length() > MAX_CACHE_SIZE) {
             dataCache.remove(0);
         }
         dataCache.put(obj);
         dataCacheCounter++;
-        logCacheInfo("addToCache (" + cacheTag + ")", cacheTag);
+        logCacheInfo("addToCache");
     }
 
     // Only call this if the data is successfully sent to the server!
-    private synchronized void clearCache(String cacheTag) {
+    private synchronized void clearCache() {
         dataCache = new JSONArray();
         dataCacheCounter = 0;
-        logCacheInfo("clearCache (" + cacheTag + ")", cacheTag);
+        logCacheInfo("clearCache");
     }
 
-    private synchronized void sendDataToServer(String cacheTag) {
-        logCacheInfo("sendDataToServer", cacheTag);
-        JSONObject json = new JSONObject();
+    private synchronized void sendDataToServer() {
+        logCacheInfo("sendDataToServer");
+        JSONObject json = new JSONObject(APP_DATA_JSON);
 
         try {
-            json.put("btClientType", "mobile");
-            json.put("btClientVersion", "1.0");
-            json.put("userID", "CPSC319-Team-1");
-            json.put("domain", "testDomain");
             json.put("data", dataCache);
 
             Log.i(TAG, "JSON: " + json.toString(2));
@@ -84,11 +89,11 @@ public class DataManager {
         }
 
         if (socketClient.sendMessage(json.toString())) {
-            clearCache(cacheTag);
+            clearCache();
         }
     }
 
-    private synchronized void logCacheInfo(String source, String cacheTag) {
+    private synchronized void logCacheInfo(String source) {
         Log.i(TAG, source);
         Log.i(TAG, "dataCacheCounter = " + dataCacheCounter);
         Log.i(TAG, "dataCacheSize = " + dataCache.length());

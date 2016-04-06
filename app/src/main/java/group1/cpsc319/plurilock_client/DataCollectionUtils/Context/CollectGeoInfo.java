@@ -48,7 +48,7 @@ public class CollectGeoInfo implements CollectDeviceContextData {
             geoInfo.put("CountryCode", this.getCountry());
             geoInfo.put("Latitude", this.getLatitude());
             geoInfo.put("Longitude", this.getLongitude());
-            dataManager.sendData(geoInfo, DataManager.GEO_DATA);
+            dataManager.sendData(geoInfo);
         } catch (JSONException e) {
             e.printStackTrace();
         }
