@@ -1,7 +1,5 @@
 package group1.cpsc319.plurilock_client.Model;
 
-import android.view.MotionEvent;
-import java.util.LinkedList;
 import android.util.Log;
 
 import org.json.JSONArray;
