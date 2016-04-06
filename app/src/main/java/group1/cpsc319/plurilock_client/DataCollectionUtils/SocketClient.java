@@ -23,6 +23,7 @@ public class SocketClient {
 
     private static SocketClient instance = null;
     private static Activity activity;
+
     private static Context context;
 
     protected SocketClient() {
@@ -110,6 +111,10 @@ public class SocketClient {
                         Intent i = new Intent(context, LoginActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         context.startActivity(i);
+                        Log.i("Websocket", "Locked.");
+                        for (Object o : listeners) {
+                            //o.notify(s);
+                        }
                     }
                 } else if (s.split("\\$", 2)[1].equalsIgnoreCase("ack")) {
                     Log.i("Websocket", "Acknowledged. Still authenticated.");

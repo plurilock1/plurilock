@@ -2,6 +2,7 @@ package group1.cpsc319.plurilock_client.Presenter;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -12,9 +13,9 @@ import android.widget.EditText;
 
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.CollectGeoInfo;
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.CollectHardwareInfo;
-import group1.cpsc319.plurilock_client.DataCollectionUtils.Keylogger.Keylogger;
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.GPSTracker;
 import group1.cpsc319.plurilock_client.R;
+import group1.cpsc319.plurilock_client.DataCollectionUtils.Keylogger.Keylogger;
 
 
 /**
@@ -37,6 +38,11 @@ public class LoginActivity extends GestureActivity {
         if (savedInstanceState == null) {
             startAccountActivity();
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig){
+        super.onConfigurationChanged(newConfig);
     }
 
     private void startAccountActivity() {

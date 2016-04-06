@@ -1,6 +1,7 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -31,6 +32,13 @@ public class MainActivity extends GestureCompatActivity {
             SocketClient.getInstance(this);
         }
     }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig){
+        super.onConfigurationChanged(newConfig);
+    }
+
 
     private void createCustomToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

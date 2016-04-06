@@ -65,6 +65,7 @@ public class CollectHardwareInfo implements CollectDeviceContextData {
             deviceInfo.put("ScreenHeight", this.getScreenHeight());
 
             dataManager.sendData(deviceInfo);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

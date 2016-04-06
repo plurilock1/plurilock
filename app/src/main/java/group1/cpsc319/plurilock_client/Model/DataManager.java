@@ -1,5 +1,7 @@
 package group1.cpsc319.plurilock_client.Model;
 
+import android.view.MotionEvent;
+import java.util.LinkedList;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -16,6 +18,7 @@ public class DataManager {
     public static final String TAG = "DataManager";
 
     // Singleton Instance
+
     private static DataManager ourInstance = new DataManager();
 
     private static SocketClient socketClient = SocketClient.getInstance();
@@ -43,7 +46,6 @@ public class DataManager {
     public static DataManager getInstance() {
         return ourInstance;
     }
-
     public synchronized void sendData(JSONObject obj) {
         try {
             addToCache(obj);
@@ -58,7 +60,6 @@ public class DataManager {
             sendDataToServer();
         }
     }
-
     private synchronized void addToCache(JSONObject obj) throws JSONException {
         while (dataCache.length() > MAX_CACHE_SIZE) {
             dataCache.remove(0);
@@ -82,12 +83,12 @@ public class DataManager {
         try {
             json.put("data", dataCache);
 
+
             Log.i(TAG, "JSON: " + json.toString(2));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         if (socketClient.sendMessage(json.toString())) {
             clearCache();
         }

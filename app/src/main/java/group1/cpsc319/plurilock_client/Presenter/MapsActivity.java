@@ -1,5 +1,7 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
+
+import android.content.res.Configuration;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -26,6 +28,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig){
+        super.onConfigurationChanged(newConfig);
+    }
 
     /**
      * Manipulates the map once available.
