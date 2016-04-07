@@ -1,12 +1,13 @@
 package group1.cpsc319.plurilock_client.Model;
 
-import android.view.MotionEvent;
-import java.util.LinkedList;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import group1.cpsc319.plurilock_client.DataCollectionUtils.SocketClient;
 
@@ -14,94 +15,86 @@ public class DataManager {
 
     public static final String TAG = "DataManager";
 
+    // Singleton Instance
+
     private static DataManager ourInstance = new DataManager();
 
     private static SocketClient socketClient = SocketClient.getInstance();
+
+    private static final Map<String, String> APP_DATA_JSON;
 
     // Save 10 events in cache before sending
     private static final int MAX_CACHE_COUNTER = 10;
 
     private static final int MAX_CACHE_SIZE = 1000;
 
-    private int cacheCounter = 0;
+    private int dataCacheCounter = 0;
+    private JSONArray dataCache = new JSONArray();
 
-    private LinkedList<MotionEvent> touchDataCache = new LinkedList<MotionEvent>();
+    static {
+        APP_DATA_JSON = new HashMap<String, String>();
+        APP_DATA_JSON.put("btClientType", "mobile");
+        APP_DATA_JSON.put("btClientVersion", "1.0");
+        APP_DATA_JSON.put("userID", "CPSC319-Team-1");
+        APP_DATA_JSON.put("domain", "testDomain");
+    }
 
     private DataManager() {}
 
     public static DataManager getInstance() {
         return ourInstance;
     }
+    public synchronized void sendData(JSONObject obj) {
+        try {
+            addToCache(obj);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-    public synchronized void sendTouchData(MotionEvent me) {
-        addToTouchDataCache(me);
+        Log.i(TAG, "sendData: " + obj.toString());
+        logCacheInfo("sendData");
 
-        Log.i(TAG, "sendTouchData: " + me.toString());
-        logTouchDataCacheInfo("sendTouchData");
-
-        if (cacheCounter >= MAX_CACHE_COUNTER) {
+        if (dataCacheCounter >= MAX_CACHE_COUNTER) {
             sendDataToServer();
         }
     }
-
-    private void addToTouchDataCache(MotionEvent me) {
-
-        while (touchDataCache.size() > MAX_CACHE_SIZE) {
-            touchDataCache.poll();
+    private synchronized void addToCache(JSONObject obj) throws JSONException {
+        while (dataCache.length() > MAX_CACHE_SIZE) {
+            dataCache.remove(0);
         }
-        touchDataCache.add(me);
-        cacheCounter++;
-        logTouchDataCacheInfo("addToTouchDataCache");
+        dataCache.put(obj);
+        dataCacheCounter++;
+        logCacheInfo("addToCache");
     }
 
     // Only call this if the data is successfully sent to the server!
-    private void clearTouchDataCache() {
-        touchDataCache.clear();
-        cacheCounter = 0;
-        logTouchDataCacheInfo("clearTouchDataCache");
+    private synchronized void clearCache() {
+        dataCache = new JSONArray();
+        dataCacheCounter = 0;
+        logCacheInfo("clearCache");
     }
 
-    private void sendDataToServer() {
-        logTouchDataCacheInfo("sendDataToServer");
-
-        JSONObject json = new JSONObject();
+    private synchronized void sendDataToServer() {
+        logCacheInfo("sendDataToServer");
+        JSONObject json = new JSONObject(APP_DATA_JSON);
 
         try {
-            json.put("btClientType", "mobile");
-            json.put("btClientVersion", "1.0");
-            json.put("userID", "CPSC319-Team-1");
-            json.put("domain", "testDomain");
+            json.put("data", dataCache);
 
-            JSONArray data = new JSONArray();
-            for (MotionEvent e : touchDataCache) {
-                JSONObject motionEventJson = new JSONObject();
-
-                motionEventJson.put("x", e.getX());
-                motionEventJson.put("y", e.getY());
-                motionEventJson.put("xPrecision", e.getXPrecision());
-                motionEventJson.put("yPrecision", e.getYPrecision());
-                motionEventJson.put("abTime", e.getEventTime() - e.getDownTime());
-                motionEventJson.put("touchType", e.getToolType(0));
-
-                data.put(motionEventJson);
-            }
-
-            json.put("data", data);
 
             Log.i(TAG, "JSON: " + json.toString(2));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        socketClient.sendMessage(json.toString());
-
-        clearTouchDataCache();
+        if (socketClient.sendMessage(json.toString())) {
+            clearCache();
+        }
     }
 
-    private void logTouchDataCacheInfo(String source) {
+    private synchronized void logCacheInfo(String source) {
         Log.i(TAG, source);
-        Log.i(TAG, "cacheCounter = " + cacheCounter);
-        Log.i(TAG, "cacheSize = " + touchDataCache.size());
+        Log.i(TAG, "dataCacheCounter = " + dataCacheCounter);
+        Log.i(TAG, "dataCacheSize = " + dataCache.length());
     }
 }

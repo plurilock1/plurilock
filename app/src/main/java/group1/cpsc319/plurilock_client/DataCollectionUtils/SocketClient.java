@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.exceptions.WebsocketNotConnectedException;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
@@ -45,7 +46,6 @@ public class SocketClient {
         return instance;
     }
 
-
     private WebSocketClient mWebSocketClient;
     private List<Object> listeners = new ArrayList<Object>();
 
@@ -53,12 +53,19 @@ public class SocketClient {
         listeners.add(o);
     }
 
-    public void sendMessage(String s) {
+    public boolean sendMessage(String s) {
         if (mWebSocketClient.getReadyState() == WebSocket.READYSTATE.OPEN) {
-            mWebSocketClient.send(s);
-            Log.i("Websocket", "Sending message: " + s);
+            try {
+                mWebSocketClient.send(s);
+                Log.i("Websocket", "Sending message: " + s);
+                return true;
+            } catch (WebsocketNotConnectedException e) {
+                Log.i("Websocket", "Sending failed.");
+                return false;
+            }
         } else {
-            Log.i("Websocket", "Not connected yet. Inserting into cache."); // TODO: insert into cache
+            Log.i("Websocket", "Not connected yet.");
+            return false;
         }
     }
 

@@ -180,7 +180,6 @@ public class GPSTracker extends Service implements LocationListener {
                         android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-
         if(locationManager != null){
             locationManager.removeUpdates(GPSTracker.this);
             Log.d(TAG, "GPSTracker service terminated");

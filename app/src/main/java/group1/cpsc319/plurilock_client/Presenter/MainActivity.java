@@ -1,6 +1,7 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -29,6 +30,13 @@ public class MainActivity extends GestureCompatActivity {
             initializeAccountFragment();
         }
     }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig){
+        super.onConfigurationChanged(newConfig);
+    }
+
 
     private void createCustomToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -82,7 +90,7 @@ public class MainActivity extends GestureCompatActivity {
         FragmentTransaction transaction = manager.beginTransaction();
 
         AccountFragment fragment = new AccountFragment();
-        transaction.add(R.id.frameFragment, fragment);
+        transaction.add(R.id.frameLayoutFragment, fragment);
         transaction.commit();
     }
 
@@ -91,7 +99,7 @@ public class MainActivity extends GestureCompatActivity {
         FragmentTransaction transaction = manager.beginTransaction();
 
         FeedbackFragment fragment = new FeedbackFragment();
-        transaction.replace(R.id.frameFragment, fragment);
+        transaction.replace(R.id.frameLayoutFragment, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

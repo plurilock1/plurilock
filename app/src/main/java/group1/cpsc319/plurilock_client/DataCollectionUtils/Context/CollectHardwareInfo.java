@@ -3,13 +3,13 @@ package group1.cpsc319.plurilock_client.DataCollectionUtils.Context;
 import android.app.Activity;
 import android.graphics.Point;
 import android.os.Build;
-import android.util.Log;
 import android.view.Display;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.regex.Pattern;
 import org.json.JSONObject;
 import org.json.JSONException;
+import group1.cpsc319.plurilock_client.Model.DataManager;
 
 /**
  * Helper class for collecting hardware specific data
@@ -18,12 +18,12 @@ import org.json.JSONException;
  */
 public class CollectHardwareInfo implements CollectDeviceContextData {
 
+    private static DataManager dataManager = DataManager.getInstance();
     private String manufacturer;
     private String model;
     private int sdkVersion;
     private int screenWidth;
     private int screenHeight;
-    private JSONObject deviceInfo;
 
 
     public CollectHardwareInfo(Activity activity) {
@@ -39,7 +39,6 @@ public class CollectHardwareInfo implements CollectDeviceContextData {
         display.getSize(size);
         this.screenWidth = size.x;
         this.screenHeight = size.y;
-        this.deviceInfo = new JSONObject();
     }
 
     /**
@@ -53,7 +52,8 @@ public class CollectHardwareInfo implements CollectDeviceContextData {
      *      Screen_Width: 1080
      *      Screen_Height: 1776
      */
-    public JSONObject collectDeviceInfo() {
+    public void collectDeviceInfo() {
+        JSONObject deviceInfo = new JSONObject();
         try {
             deviceInfo.put("Product", Build.PRODUCT);
             deviceInfo.put("Brand", Build.BRAND);
@@ -64,12 +64,11 @@ public class CollectHardwareInfo implements CollectDeviceContextData {
             deviceInfo.put("ScreenWidth", this.getScreenWidth());
             deviceInfo.put("ScreenHeight", this.getScreenHeight());
 
-            Log.d("Hardware Info", deviceInfo.toString(2));
+            dataManager.sendData(deviceInfo);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        return deviceInfo;
     }
 
     //Heavily inspired by the information at: http://makingmoneywithandroid.com/forum/showthread.php?tid=298 (link is down at the moment)

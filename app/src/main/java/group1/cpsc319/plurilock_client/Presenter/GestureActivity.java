@@ -1,10 +1,17 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Touch.GestureListener;
+import group1.cpsc319.plurilock_client.Model.DataManager;
 
 /**
  * Created by BK on 16-02-29.
@@ -12,6 +19,10 @@ import group1.cpsc319.plurilock_client.DataCollectionUtils.Touch.GestureListener
 
 public class GestureActivity extends Activity {
     private GestureDetector gestureDetector;
+
+    public static final String TAG = "Orientation";
+
+    private static DataManager dataManager = DataManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +33,36 @@ public class GestureActivity extends Activity {
         // Create a GestureDetector
         gestureDetector = new GestureDetector(this, customGestureDetector);
         gestureDetector.setOnDoubleTapListener(customGestureDetector);
-
-
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         gestureDetector.onTouchEvent(event);
         return super.onTouchEvent(event);
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        JSONObject obj = new JSONObject();
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            try {
+                obj.put("Orientation", "landscape");
+                dataManager.sendData(obj);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            try {
+                obj.put("Orientation", "portrait");
+                dataManager.sendData(obj);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
