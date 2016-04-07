@@ -16,7 +16,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.GPSTracker;
-import group1.cpsc319.plurilock_client.DataCollectionUtils.Touch.GestureListener;
 
 import group1.cpsc319.plurilock_client.R;
 

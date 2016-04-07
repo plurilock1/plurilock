@@ -61,13 +61,13 @@ public class MainActivity extends GestureCompatActivity {
 
             case R.id.action_abm_locator:
                 // User chose the "ABM Locator" item, show the app about UI...
-                Intent intentABMLocator = new Intent(MainActivity.this, MapsActivity.class);
+                Intent intentABMLocator = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(intentABMLocator);
                 return true;
 
             case R.id.action_about:
                 // User chose the "About" item, show the app about UI...
-                Intent intentAbout = new Intent(MainActivity.this, AboutActivity.class);
+                Intent intentAbout = new Intent(getApplicationContext(), AboutActivity.class);
                 startActivity(intentAbout);
                 return true;
 

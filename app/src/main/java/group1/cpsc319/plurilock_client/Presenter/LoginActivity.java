@@ -2,14 +2,11 @@ package group1.cpsc319.plurilock_client.Presenter;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.CollectGeoInfo;
@@ -49,16 +46,8 @@ public class LoginActivity extends GestureActivity {
     private void startAccountActivity() {
         EditText username = (EditText) findViewById(R.id.editTextUsername);
         EditText password = (EditText) findViewById(R.id.editTextPassword);
-        Button buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
 
         this.bindListeners(new EditText[]{username, password});
-
-        buttonSignIn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
 
         // Check if there are location permissions.
         if (Build.VERSION.SDK_INT >= 19 &&
@@ -119,6 +108,11 @@ public class LoginActivity extends GestureActivity {
             element.setOnEditorActionListener(keylogger);
             element.addTextChangedListener(keylogger);
         }
+    }
+
+    public void signIn(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 }
 

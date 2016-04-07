@@ -57,6 +57,7 @@
         android:layout_gravity="center_horizontal"
         android:background="#f60000"
         android:textSize="16sp"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="40dp"
+        android:onClick="signIn" />
 
 </LinearLayout>
