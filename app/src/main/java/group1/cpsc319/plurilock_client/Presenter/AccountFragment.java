@@ -125,7 +125,7 @@ public class AccountFragment extends Fragment {
         FragmentTransaction transaction = manager.beginTransaction();
 
         TransactionFragment fragment = new TransactionFragment();
-        transaction.replace(R.id.frameFragment, fragment);
+        transaction.replace(R.id.frameLayoutFragment, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

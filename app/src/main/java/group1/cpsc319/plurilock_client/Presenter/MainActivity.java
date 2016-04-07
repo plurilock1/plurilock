@@ -92,7 +92,7 @@ public class MainActivity extends GestureCompatActivity {
         FragmentTransaction transaction = manager.beginTransaction();
 
         AccountFragment fragment = new AccountFragment();
-        transaction.add(R.id.frameFragment, fragment);
+        transaction.add(R.id.frameLayoutFragment, fragment);
         transaction.commit();
     }
 
@@ -101,7 +101,7 @@ public class MainActivity extends GestureCompatActivity {
         FragmentTransaction transaction = manager.beginTransaction();
 
         FeedbackFragment fragment = new FeedbackFragment();
-        transaction.replace(R.id.frameFragment, fragment);
+        transaction.replace(R.id.frameLayoutFragment, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

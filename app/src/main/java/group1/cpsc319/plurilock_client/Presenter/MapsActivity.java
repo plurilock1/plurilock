@@ -4,6 +4,10 @@ package group1.cpsc319.plurilock_client.Presenter;
 import android.content.res.Configuration;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -12,11 +16,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import group1.cpsc319.plurilock_client.DataCollectionUtils.Touch.GestureListener;
 import group1.cpsc319.plurilock_client.R;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private GestureDetector gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        addTouchLayer();
+    }
+
+    private void addTouchLayer() {
+        GestureListener customGestureDetector = new GestureListener();
+
+        gestureDetector = new GestureDetector(this, customGestureDetector);
+        gestureDetector.setOnDoubleTapListener(customGestureDetector);
+
+        FrameLayout frameLayoutMapTouch = (FrameLayout) findViewById(R.id.frameLayoutMapTouch);
+        frameLayoutMapTouch.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return onTouchEvent(event);
+            }
+        });
     }
 
     @Override
