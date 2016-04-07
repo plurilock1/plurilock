@@ -116,7 +116,7 @@ public class LoginActivity extends GestureActivity {
         EditText editTextUsername = (EditText) findViewById(R.id.editTextUsername);
         String stringUsername = editTextUsername.getText().toString();
 
-        if (1 <= stringUsername.length() && stringUsername.length() <= 10) {
+        if (stringUsername.length() >= 1 && stringUsername.length() <= 10) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.putExtra("stringUsername", stringUsername);
             startActivity(intent);
@@ -129,7 +129,6 @@ public class LoginActivity extends GestureActivity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
-
     }
 }
 

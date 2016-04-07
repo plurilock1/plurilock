@@ -106,7 +106,7 @@ public class SocketClient {
 
                         activity.runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(context.getApplicationContext(), "Deauthenticated. Please log in again.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context.getApplicationContext(), "Deauthenticated.\nPlease log in again.", Toast.LENGTH_LONG).show();
                             }
                         });
 

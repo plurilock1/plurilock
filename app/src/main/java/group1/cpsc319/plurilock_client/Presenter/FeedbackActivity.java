@@ -1,6 +1,7 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,13 +61,37 @@ public class FeedbackActivity extends GestureCompatActivity {
     }
 
     public void submit(View view) {
-        finish();
+        EditText editTextSubject = (EditText) findViewById(R.id.editTextSubject);
+        String stringSubject = editTextSubject.getText().toString();
 
-        Context context = getApplicationContext();
-        CharSequence text = "Thank you for your feedback.\nWe will respond within 48 hours.";
-        int duration = Toast.LENGTH_LONG;
+        EditText editTextFeedback = (EditText) findViewById(R.id.editTextFeedback);
+        String stringFeedback = editTextFeedback.getText().toString();
 
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
+        if ( stringSubject.length() == 0 ) {
+            Context context = getApplicationContext();
+            CharSequence text = "Please write the subject.";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+        else if ( stringFeedback.length() == 0 ) {
+            Context context = getApplicationContext();
+            CharSequence text = "Please write feedback.";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+        else {
+            finish();
+
+            Context context = getApplicationContext();
+            CharSequence text = "Thank you for your feedback.\nWe will respond within 48 hours.";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
     }
 }
