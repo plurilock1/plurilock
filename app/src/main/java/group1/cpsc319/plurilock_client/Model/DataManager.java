@@ -30,6 +30,7 @@ public class DataManager {
 
     private int dataCacheCounter = 0;
     private JSONArray dataCache = new JSONArray();
+    private JSONObject currentObject;
 
     static {
         APP_DATA_JSON = new HashMap<String, String>();
@@ -44,6 +45,15 @@ public class DataManager {
     public static DataManager getInstance() {
         return ourInstance;
     }
+
+    public synchronized JSONObject getCurrentObject() {
+        return currentObject;
+    }
+
+    public synchronized JSONArray getDataCache() {
+        return dataCache;
+    }
+
     public synchronized void sendData(JSONObject obj) {
         try {
             addToCache(obj);
@@ -62,6 +72,7 @@ public class DataManager {
         while (dataCache.length() > MAX_CACHE_SIZE) {
             dataCache.remove(0);
         }
+        currentObject = obj;
         dataCache.put(obj);
         dataCacheCounter++;
         logCacheInfo("addToCache");
@@ -96,5 +107,6 @@ public class DataManager {
         Log.i(TAG, source);
         Log.i(TAG, "dataCacheCounter = " + dataCacheCounter);
         Log.i(TAG, "dataCacheSize = " + dataCache.length());
+        Log.d(TAG, "dataCache = " + dataCache.toString());
     }
 }

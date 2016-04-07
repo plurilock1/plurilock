@@ -16,3 +16,4 @@ public class AboutActivity extends GestureActivity {
         setContentView(R.layout.activity_about);
     }
 }
+
