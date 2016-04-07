@@ -15,6 +15,8 @@
     <string name="text_view_account_type">Chequing</string>
     <string name="text_view_bank_accounts">Bank Accounts</string>
     <string name="text_view_transactions">Transactions</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_about">About</string>
+    <string name="title_activity_maps">ABM Locator</string>
+    <string name="title_feedback">Feedback</string>
 </resources>
 

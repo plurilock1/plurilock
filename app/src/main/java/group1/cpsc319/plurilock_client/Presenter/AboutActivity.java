@@ -8,7 +8,7 @@ import group1.cpsc319.plurilock_client.R;
  * Created by anneunjungkim on 2016-02-27.
  */
 
-public class AboutActivity extends GestureActivity {
+public class AboutActivity extends GestureCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

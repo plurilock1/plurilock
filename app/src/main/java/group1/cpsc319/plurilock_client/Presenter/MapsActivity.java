@@ -2,7 +2,6 @@ package group1.cpsc319.plurilock_client.Presenter;
 
 
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Touch.GestureListener;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,7 +18,7 @@ import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.GPSTracker;
 
 import group1.cpsc319.plurilock_client.R;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends GestureCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private GestureListener gestureListener = new GestureListener(this);
@@ -38,7 +37,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void addTouchLayer() {
-
         FrameLayout frameLayoutMapTouch = (FrameLayout) findViewById(R.id.frameLayoutMapTouch);
         frameLayoutMapTouch.setOnTouchListener(new View.OnTouchListener() {
             @Override

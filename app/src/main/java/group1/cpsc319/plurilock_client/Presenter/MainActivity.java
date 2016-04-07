@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,7 +47,8 @@ public class MainActivity extends GestureCompatActivity {
 
             case R.id.action_feedback:
                 // User chose the "Feedback" item, show the app settings UI...
-                toFeedbackFragment();
+                Intent intentFeedback = new Intent(MainActivity.this, FeedbackActivity.class);
+                startActivity(intentFeedback);
                 return true;
 
             case R.id.action_abm_locator:
@@ -76,16 +76,6 @@ public class MainActivity extends GestureCompatActivity {
 
         AccountFragment fragment = new AccountFragment();
         transaction.add(R.id.frameLayoutFragment, fragment);
-        transaction.commit();
-    }
-
-    private void toFeedbackFragment() {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-
-        FeedbackFragment fragment = new FeedbackFragment();
-        transaction.replace(R.id.frameLayoutFragment, fragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 }
