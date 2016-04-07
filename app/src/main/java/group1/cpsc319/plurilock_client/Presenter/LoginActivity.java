@@ -1,5 +1,6 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -8,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.CollectGeoInfo;
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.CollectHardwareInfo;
@@ -111,15 +113,23 @@ public class LoginActivity extends GestureActivity {
     }
 
     public void signIn(View view) {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        passUsername(intent);
-        startActivity(intent);
-    }
-
-    private void passUsername(Intent intent) {
         EditText editTextUsername = (EditText) findViewById(R.id.editTextUsername);
         String stringUsername = editTextUsername.getText().toString();
-        intent.putExtra("stringUsername", stringUsername);
+
+        if (1 <= stringUsername.length() && stringUsername.length() <= 10) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.putExtra("stringUsername", stringUsername);
+            startActivity(intent);
+        }
+        else {
+            Context context = getApplicationContext();
+            CharSequence text = "Username should be between 1 and 10 characters.";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+
     }
 }
 
