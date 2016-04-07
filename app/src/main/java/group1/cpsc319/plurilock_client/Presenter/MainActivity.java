@@ -25,15 +25,8 @@ public class MainActivity extends GestureCompatActivity {
         // (Ann is suspecting that onCreate may be called more than once due to an Android bug,
         // because Ann has seen fragments overlapping randomly):
         if (savedInstanceState == null) {
-            createCustomToolbar();
             initializeAccountFragment();
         }
-    }
-
-    private void createCustomToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        // The toolbar can be edited in res/layout/activity_main.xml.
     }
 
     // Create an overflow menu.
