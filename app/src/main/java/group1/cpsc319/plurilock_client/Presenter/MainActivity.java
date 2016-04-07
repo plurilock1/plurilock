@@ -1,5 +1,6 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import group1.cpsc319.plurilock_client.R;
 
@@ -43,6 +45,17 @@ public class MainActivity extends GestureCompatActivity {
 
             case R.id.action_sign_out:
                 // User chose the "Sign out" item, show the app settings UI...
+                Intent intentLogout = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intentLogout);
+                finish();
+
+                Context context = getApplicationContext();
+                CharSequence text = "You have successfully signed out.";
+                int duration = Toast.LENGTH_LONG;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
                 return true;
 
             case R.id.action_feedback:
