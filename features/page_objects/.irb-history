@@ -1,0 +1,10 @@
+query("button")
+query("button")
+button
+@query
+query
+query("EditText")
+exit
+query("button")
+query("button marked: 'SIGN IN'")
+exit

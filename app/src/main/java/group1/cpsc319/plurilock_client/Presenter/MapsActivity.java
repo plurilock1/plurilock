@@ -14,12 +14,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.GPSTracker;
 import group1.cpsc319.plurilock_client.R;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private GestureListener gestureListener = new GestureListener(this);
+    private GPSTracker gpsTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
 
         addTouchLayer();
     }
@@ -58,10 +59,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        gpsTracker = GPSTracker.getInstance(this);
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng loc;
+        double lat = gpsTracker.getLatitude();
+        double lon = gpsTracker.getLongitude();
+
+        // If GPSTracker is functional and lat/lon values are not the default values at 0
+        if (gpsTracker != null && lat != 0 && lon != 0) {
+            loc = new LatLng(lat, lon);
+        } else {
+            // Default is set to UBC
+            loc = new LatLng(49.261169, -123.248119);
+        }
+        // Add location marker and move the camera with a zoom of 15
+        mMap.addMarker(new MarkerOptions().position(loc).title("Marker at current location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 15));
     }
 }

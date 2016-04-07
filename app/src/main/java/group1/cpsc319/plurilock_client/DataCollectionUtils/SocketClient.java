@@ -22,9 +22,9 @@ import group1.cpsc319.plurilock_client.Presenter.LoginActivity;
 public class SocketClient {
 
     private static SocketClient instance = null;
-    private static Activity activity;
 
-    private static Context context;
+    private static Activity activity = null;
+    private static Context context = null;
 
     protected SocketClient() {
         connectWebSocket();
@@ -72,7 +72,7 @@ public class SocketClient {
     private void connectWebSocket() {
         URI uri;
         try {
-            uri = new URI("ws://btdemo.plurilock.com:8095");
+            uri = new URI("wss://btdemo.plurilock.com:8095");
         } catch (URISyntaxException e) {
             e.printStackTrace();
             return;
@@ -83,15 +83,22 @@ public class SocketClient {
             public void onOpen(ServerHandshake serverHandshake) {
                 Log.i("Websocket", "Opened");
                 mWebSocketClient.send("Hello from Plurilock!");
+
+                while (activity == null) {}
+
+                activity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(context.getApplicationContext(), "Connected to Plurilock.", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
 
             @Override
             public void onMessage(String s) {
-                final String message = s;
                 Log.i("Websocket", "Message received");
                 Log.i("Websocket", s);
 
-                if (s.split("\\$", 2)[1].equalsIgnoreCase("lock")) {
+                if (s.toLowerCase().contains("lock")) {
                     Random rand = new Random();
                     if (rand.nextInt(25) < 1) {
 
@@ -107,14 +114,10 @@ public class SocketClient {
                             //o.notify(s);
                         }
 
-                        // call function to lock out user
-                        Intent i = new Intent(context, LoginActivity.class);
+                        // launch initial activity and clear activity stack
+                        Intent i = new Intent(context, activity.getClass());
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         context.startActivity(i);
-                        Log.i("Websocket", "Locked.");
-                        for (Object o : listeners) {
-                            //o.notify(s);
-                        }
                     }
                 } else if (s.split("\\$", 2)[1].equalsIgnoreCase("ack")) {
                     Log.i("Websocket", "Acknowledged. Still authenticated.");

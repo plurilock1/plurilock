@@ -15,6 +15,7 @@ import android.widget.EditText;
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.CollectGeoInfo;
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.CollectHardwareInfo;
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.GPSTracker;
+import group1.cpsc319.plurilock_client.DataCollectionUtils.Plurilock;
 import group1.cpsc319.plurilock_client.R;
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Keylogger.Keylogger;
 
@@ -32,6 +33,10 @@ public class LoginActivity extends GestureActivity {
         // Create a view from res/layout/activity_login.xml.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // We don't really need the socket client, but as LoginActivity is the main activity that
+        // starts on application start, we need to initialize it with an activity.
+        Plurilock.init(this);
 
         // To make sure onCreate is called only once
         // (Ann is suspecting that onCreate may be called more than once due to an Android bug,

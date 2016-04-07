@@ -26,6 +26,7 @@ public class GestureListener {
     private VelocityTracker velocityTracker = null;
     private static DataManager dataManager = DataManager.getInstance();
     private static final String TAG = "Gesture";
+    private String moveDescription = null;
     private Context context;
 
     public GestureListener() {}
@@ -47,6 +48,7 @@ public class GestureListener {
             case MotionEvent.ACTION_UP:
                 Log.i(TAG, "Up" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
                 fingerAlreadyDown = false;
+                moveDescription = null;
 
                 if (velocityTracker != null) {
                     velocityTracker.clear();
@@ -64,8 +66,10 @@ public class GestureListener {
                     Log.d("VELOCITY X", Float.toString(velocityTracker.getXVelocity()));
                     Log.d("VELOCITY Y", Float.toString(velocityTracker.getYVelocity()));
                     if ((int) Math.abs(velocityTracker.getXVelocity()) > 1500 || (int) Math.abs(velocityTracker.getYVelocity()) > 1500) {
+                        moveDescription = "Swipe";
                         Log.i(TAG, "Swipe" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
                     } else {
+                        moveDescription = "Scroll";
                         Log.i(TAG, "Scroll" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
                     }
 
@@ -148,8 +152,10 @@ public class GestureListener {
             motionEventJson.put("NumFingers", 1);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (moveDescription == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             motionEventJson.put("eventType", e.actionToString(e.getAction()));
+        } else {
+            motionEventJson.put("eventType", moveDescription);
         }
 
         motionEventJson.put("x", e.getX());
