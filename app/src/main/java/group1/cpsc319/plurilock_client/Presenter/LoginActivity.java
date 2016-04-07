@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -104,7 +105,6 @@ public class LoginActivity extends GestureActivity {
         geoInfo.collectDeviceInfo();
     }
 
-    //TODO: if used enough in our app, this needs to be abstracted
     private void bindListeners(EditText[] editTextElements) {
         if (!(editTextElements instanceof EditText[])) {
             throw new IllegalArgumentException("class must be of type EditText[]");
