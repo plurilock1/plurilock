@@ -33,8 +33,6 @@ public class GestureActivity extends Activity {
         // Create a GestureDetector
         gestureDetector = new GestureDetector(this, customGestureDetector);
         gestureDetector.setOnDoubleTapListener(customGestureDetector);
-
-
     }
 
     @Override
