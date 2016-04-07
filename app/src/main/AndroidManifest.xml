@@ -37,13 +37,22 @@
         </activity>
         <activity
             android:name=".Presenter.MainActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name">
+        </activity>
         <activity
             android:name=".Presenter.AboutActivity"
-            android:label="@string/title_about"></activity>
+            android:label="@string/title_about">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="group1.cpsc319.plurilock_client.Presenter.MainActivity" />
+        </activity>
         <activity
             android:name=".Presenter.FeedbackActivity"
-            android:label="@string/title_feedback"></activity>
+            android:label="@string/title_feedback">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="group1.cpsc319.plurilock_client.Presenter.MainActivity" />
+        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -58,7 +67,11 @@
 
         <activity
             android:name=".Presenter.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="group1.cpsc319.plurilock_client.Presenter.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

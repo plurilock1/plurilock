@@ -3,6 +3,7 @@ package group1.cpsc319.plurilock_client.Presenter;
 
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Touch.GestureListener;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -50,6 +51,17 @@ public class MapsActivity extends GestureCompatActivity implements OnMapReadyCal
                 return onTouchEvent(event);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**

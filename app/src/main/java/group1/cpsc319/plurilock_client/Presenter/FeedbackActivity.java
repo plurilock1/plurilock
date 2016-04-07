@@ -2,6 +2,7 @@ package group1.cpsc319.plurilock_client.Presenter;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -45,6 +46,17 @@ public class FeedbackActivity extends GestureCompatActivity {
             element.setOnEditorActionListener(keylogger);
             element.addTextChangedListener(keylogger);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void submit(View view) {
