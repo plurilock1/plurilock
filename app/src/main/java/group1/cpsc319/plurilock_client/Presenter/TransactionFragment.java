@@ -1,8 +1,8 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,7 +23,7 @@ import group1.cpsc319.plurilock_client.R;
  */
 public class TransactionFragment extends Fragment {
     private List<Transaction> myTransactions = new ArrayList<>();
-    private GestureDetector gestureDetector;
+    private GestureListener gestureListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,15 +63,13 @@ public class TransactionFragment extends Fragment {
         ArrayAdapter<Transaction> adapter = new MyArrayAdapter();
         listViewBankAccounts.setAdapter(adapter);
 
-        GestureListener listGestureDetector = new GestureListener();
-
-        gestureDetector = new GestureDetector(getActivity(), listGestureDetector);
-        gestureDetector.setOnDoubleTapListener(listGestureDetector);
 
         listViewBankAccounts.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                Context context = getActivity();
+                gestureListener = new GestureListener(context);
+                gestureListener.onTouchEvent(event);
                 return getActivity().onTouchEvent(event);
             }
         });

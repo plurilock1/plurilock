@@ -76,7 +76,7 @@ public class CollectHardwareInfo implements CollectDeviceContextData {
         class CpuFilter implements FileFilter {
             @Override
             public boolean accept(File pathname) {
-                if (Pattern.matches("cpu[0-9]", pathname.getName())) {
+                if (Pattern.matches("cpu[0-9]", pathname.getName())) { //POSSIBLE TESTING OPPORTUNITY
                     return true;
                 }
 

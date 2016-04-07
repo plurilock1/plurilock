@@ -1,10 +1,9 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
 
-import android.content.res.Configuration;
+import group1.cpsc319.plurilock_client.DataCollectionUtils.Touch.GestureListener;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -15,16 +14,15 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.GPSTracker;
-import group1.cpsc319.plurilock_client.DataCollectionUtils.Touch.GestureListener;
 import group1.cpsc319.plurilock_client.R;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private GestureDetector gestureDetector;
+    private GestureListener gestureListener = new GestureListener(this);
     private GPSTracker gpsTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,24 +36,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void addTouchLayer() {
-        GestureListener customGestureDetector = new GestureListener();
-
-        gestureDetector = new GestureDetector(this, customGestureDetector);
-        gestureDetector.setOnDoubleTapListener(customGestureDetector);
 
         FrameLayout frameLayoutMapTouch = (FrameLayout) findViewById(R.id.frameLayoutMapTouch);
         frameLayoutMapTouch.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+                gestureListener.onTouchEvent(event);
                 return onTouchEvent(event);
             }
         });
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig){
-        super.onConfigurationChanged(newConfig);
     }
 
     /**

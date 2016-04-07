@@ -31,13 +31,6 @@ public class MainActivity extends GestureCompatActivity {
         }
     }
 
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig){
-        super.onConfigurationChanged(newConfig);
-    }
-
-
     private void createCustomToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
