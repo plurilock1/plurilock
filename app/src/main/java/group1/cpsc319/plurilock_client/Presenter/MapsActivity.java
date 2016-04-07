@@ -7,16 +7,13 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Context.GPSTracker;
-
 import group1.cpsc319.plurilock_client.R;
 
 public class MapsActivity extends GestureCompatActivity implements OnMapReadyCallback {
