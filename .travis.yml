@@ -1,3 +1,7 @@
+env:
+  global:
+    - ANDROID_ABI=google_apis/armeabi-v7a
+
 notifications: 
   slack: plurilock1:9Ddic6DYIACEoXXJyilg07j2
 
@@ -7,15 +11,17 @@ android:
   - tools 
   - build-tools-23.0.2 
   - android-23
+  - addon-google_apis-google-23
+  - extra-android-support
   - extra-google-google_play_services
   - extra-android-m2repository
-  - extra-google-m2repository 
-  - sys-img-armeabi-v7a-android-23  
+  - extra-google-m2repository
+  - sys-img-armeabi-v7a-addon-google_apis-google-23
 
 before_script:
   - ./gradlew assembleDebug
   - export ANDROID_HOME=/usr/local/android-sdk
-  - echo no | android create avd --force -n test -t android-23 --abi armeabi-v7a
+  - echo no | android create avd --force -n test -t android-23 --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
 
