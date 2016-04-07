@@ -25,7 +25,7 @@ public abstract class BaseAcceptanceTest {
         try {
             //used to bypass situation where first two json objects are stored upon activity initialization
             this.obj = dm.getDataCache().getJSONObject(0);
-            
+
         } catch (JSONException e) {
             Assert.assertTrue("Could not fetch JSON object", false);
         }
@@ -94,7 +94,6 @@ public abstract class BaseAcceptanceTest {
     private boolean checkJSONFields(JSONObject obj, String[] fields) {
         for (int ii = 0; ii < fields.length; ii++) {
             if (!obj.has(fields[ii])) {
-                Log.d("CheckJSONFields", fields[ii]);
                 return false;
             }
         }

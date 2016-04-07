@@ -22,5 +22,4 @@ before_script:
   - android-wait-for-emulator
 
 script:
-  - ./gradlew test
-  - calabash-android run ./app/build/outputs/apk/app-debug.apk 
+  - ./gradlew connectedAndroidTest 
