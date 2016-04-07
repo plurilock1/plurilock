@@ -1,7 +1,6 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,7 +19,7 @@ public class MainActivity extends GestureCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accounts);
+        setContentView(R.layout.activity_main);
 
         // To make sure onCreate is called only once
         // (Ann is suspecting that onCreate may be called more than once due to an Android bug,
@@ -34,7 +33,7 @@ public class MainActivity extends GestureCompatActivity {
     private void createCustomToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // The toolbar can be edited in res/layout/activity_accounts.xml.
+        // The toolbar can be edited in res/layout/activity_main.xml.
     }
 
     // Create an overflow menu.
