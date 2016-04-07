@@ -79,7 +79,7 @@ public class DataManager {
     }
 
     // Only call this if the data is successfully sent to the server!
-    private synchronized void clearCache() {
+    public synchronized void clearCache() {
         dataCache = new JSONArray();
         dataCacheCounter = 0;
         logCacheInfo("clearCache");
