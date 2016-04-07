@@ -17,10 +17,15 @@ public abstract class BaseAcceptanceTest {
     private DataManager dm = DataManager.getInstance();
     private JSONObject obj;
 
+    public BaseAcceptanceTest() {
+        dm.clearCache();
+    }
+
     public void hardwareTrackedTest() {
         try {
             //used to bypass situation where first two json objects are stored upon activity initialization
             this.obj = dm.getDataCache().getJSONObject(0);
+            
         } catch (JSONException e) {
             Assert.assertTrue("Could not fetch JSON object", false);
         }
@@ -47,7 +52,8 @@ public abstract class BaseAcceptanceTest {
     public void touchTest(int viewId) {
         onView(ViewMatchers.withId(viewId)).perform(click());
         this.obj = dm.getCurrentObject();
-        if (checkJSONFields(obj, new String[] {"x", "y", "xPrecision", "yPrecision", "abTime", "touchType"})) {
+        if (checkJSONFields(obj, new String[] {"NumFingers", "eventType", "x", "y", "orientation",
+                "xPrecision", "yPrecision", "abTime","pressure", "touchArea", "toolType", "application"})) {
             Assert.assertTrue("Touch info tracked", true);
         } else {
             Assert.assertTrue(this.constructErrorMessage(obj, "Touch"), false);
@@ -59,7 +65,9 @@ public abstract class BaseAcceptanceTest {
         onView(ViewMatchers.withId(viewId)).perform(swipeRight());
         this.obj = dm.getCurrentObject();
         try {
-            if (checkJSONFields(obj, new String[] {"x", "y", "xPrecision", "yPrecision", "abTime", "touchType"}) && (obj.getInt("xPrecision") > 0 || obj.getInt("yPrecision") > 0)) {
+            if (checkJSONFields(obj, new String[] {"NumFingers", "eventType", "orientation",
+                    "x", "y", "xPrecision", "yPrecision", "abTime","pressure", "touchArea",
+                    "toolType", "application"}) && (obj.getInt("xPrecision") > 0 || obj.getInt("yPrecision") > 0)) {
                 Assert.assertTrue("Swipe info tracked", true);
             } else {
                 Assert.assertTrue(this.constructErrorMessage(obj, "Swipe"), false);
@@ -86,6 +94,7 @@ public abstract class BaseAcceptanceTest {
     private boolean checkJSONFields(JSONObject obj, String[] fields) {
         for (int ii = 0; ii < fields.length; ii++) {
             if (!obj.has(fields[ii])) {
+                Log.d("CheckJSONFields", fields[ii]);
                 return false;
             }
         }

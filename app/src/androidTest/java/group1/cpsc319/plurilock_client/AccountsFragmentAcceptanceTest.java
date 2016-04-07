@@ -23,7 +23,7 @@ public class AccountsFragmentAcceptanceTest extends BaseAcceptanceTest {
 
     @Test
     public void checkRequirementsOnAccounts() {
-        this.touchTest(R.id.frameFragment);
-        this.swipeTest(R.id.frameFragment);
+        this.touchTest(R.id.listViewBankAccounts);
+        this.swipeTest(R.id.listViewBankAccounts);
     }
 }
