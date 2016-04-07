@@ -22,8 +22,8 @@ public class SocketClient {
 
     private static SocketClient instance = null;
 
-    private static Activity activity;
-    private static Context context;
+    private static Activity activity = null;
+    private static Context context = null;
 
     protected SocketClient() {
         connectWebSocket();
@@ -76,6 +76,12 @@ public class SocketClient {
             public void onOpen(ServerHandshake serverHandshake) {
                 Log.i("Websocket", "Opened");
                 mWebSocketClient.send("Hello from Plurilock!");
+
+                activity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(context.getApplicationContext(), "Connected to Plurilock.", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
 
             @Override
