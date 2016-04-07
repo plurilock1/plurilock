@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import group1.cpsc319.plurilock_client.DataCollectionUtils.SocketClient;
 import group1.cpsc319.plurilock_client.R;
 
 /**
@@ -29,7 +28,6 @@ public class MainActivity extends GestureCompatActivity {
         if (savedInstanceState == null) {
             createCustomToolbar();
             initializeAccountFragment();
-            SocketClient.getInstance(this);
         }
     }
 
