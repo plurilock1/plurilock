@@ -40,11 +40,6 @@ public class LoginActivity extends GestureActivity {
         }
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig){
-        super.onConfigurationChanged(newConfig);
-    }
-
     private void startAccountActivity() {
         EditText username = (EditText) findViewById(R.id.editTextUsername);
         EditText password = (EditText) findViewById(R.id.editTextPassword);
