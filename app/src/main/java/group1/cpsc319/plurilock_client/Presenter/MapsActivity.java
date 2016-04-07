@@ -83,8 +83,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // Default is set to UBC
             loc = new LatLng(49.261169, -123.248119);
         }
-        // Add location marker and move the camera
+        // Add location marker and move the camera with a zoom of 15
         mMap.addMarker(new MarkerOptions().position(loc).title("Marker at current location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 15));
     }
 }
