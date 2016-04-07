@@ -1,8 +1,10 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
-import android.content.res.Configuration;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import group1.cpsc319.plurilock_client.DataCollectionUtils.Keylogger.Keylogger;
 import group1.cpsc319.plurilock_client.R;
@@ -43,5 +45,16 @@ public class FeedbackActivity extends GestureCompatActivity {
             element.setOnEditorActionListener(keylogger);
             element.addTextChangedListener(keylogger);
         }
+    }
+
+    public void submit(View view) {
+        finish();
+
+        Context context = getApplicationContext();
+        CharSequence text = "Thank you for your feedback.\nWe will respond within 48 hours.";
+        int duration = Toast.LENGTH_LONG;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 }
