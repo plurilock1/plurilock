@@ -113,8 +113,8 @@ public class SocketClient {
                             //o.notify(s);
                         }
 
-                        // call function to lock out user
-                        Intent i = new Intent(context, LoginActivity.class);
+                        // launch initial activity and clear activity stack
+                        Intent i = new Intent(context, activity.getClass());
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         context.startActivity(i);
                     }
