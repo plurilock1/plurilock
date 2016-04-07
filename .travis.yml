@@ -10,10 +10,6 @@ android:
   - extra-android-m2repository
   - sys-img-armeabi-v7a-android-23  
 
-install:
-  - gem install rspec
-  - gem install calabash-android
-
 before_script:
   - ./gradlew assembleDebug
   - export ANDROID_HOME=/usr/local/android-sdk
