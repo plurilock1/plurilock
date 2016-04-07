@@ -1,102 +1,89 @@
 package group1.cpsc319.plurilock_client.DataCollectionUtils.Touch;
 
-import android.view.GestureDetector;
-import android.view.MotionEvent;
+import android.app.Activity;
+import android.content.Context;
+import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import group1.cpsc319.plurilock_client.Model.DataManager;
+import group1.cpsc319.plurilock_client.R;
 
 /**
  * Created by BK on 16-02-29.
+ * Edited by Matas on 16-04-06.
  */
 
-public class GestureListener extends GestureDetector.SimpleOnGestureListener
-        implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener{
-
-    public static final String TAG = "GestureListener";
-
+public class GestureListener {
+    private boolean fingerAlreadyDown = false;
+    private int lastX = 0;
+    private int lastY = 0;
+    private VelocityTracker velocityTracker = null;
     private static DataManager dataManager = DataManager.getInstance();
+    private static final String TAG = "Gesture";
+    private Context context;
 
-    @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        Log.i(TAG, "Single Tap Up" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
-        sendTouchData(e);
-        return false;
+    public GestureListener() {}
+
+    public GestureListener(Context context) {
+        this.context = context;
     }
 
-    @Override
-    public void onLongPress(MotionEvent e) {
-        Log.i(TAG, "Long Press" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
-        sendTouchData(e);
-    }
+    public boolean onTouchEvent(MotionEvent e) {
+        switch (e.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                if (!fingerAlreadyDown) {
+                    Log.i(TAG, "Down" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+                }
 
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
-                            float distanceY){
-        Log.i(TAG, "Scroll" + scrollCoordination(e1, e2) + getTouchType(e1));
-        sendTouchData(e1);
-        sendTouchData(e2);
-        return false;
-    }
+                fingerAlreadyDown = true;
+                sendTouchData(e);
+                break;
+            case MotionEvent.ACTION_UP:
+                Log.i(TAG, "Up" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+                fingerAlreadyDown = false;
 
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                           float velocityY) {
-        Log.i(TAG, "Fling" + scrollCoordination(e1, e2) + getTouchType(e1));
-        sendTouchData(e1);
-        sendTouchData(e2);
-        return false;
-    }
+                if (velocityTracker != null) {
+                    velocityTracker.clear();
+                }
 
-    @Override
-    public void onShowPress(MotionEvent e) {
-        Log.i(TAG, "Show Press" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
-    }
+                sendTouchData(e);
+                break;
 
-    @Override
-    public boolean onDown(MotionEvent e) {
-        Log.i(TAG, "Down" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
-        sendTouchData(e);
-        return false;
-    }
+            case MotionEvent.ACTION_MOVE:
+                if (lastX != (int) e.getX() && lastY != (int) e.getY()) {
+                    velocityTracker = VelocityTracker.obtain();
+                    velocityTracker.addMovement(e);
+                    velocityTracker.computeCurrentVelocity(1000);
 
-    @Override
-    public boolean onDoubleTap(MotionEvent e) {
-        Log.i(TAG, "Double tap" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
-        sendTouchData(e);
-        return false;
-    }
+                    Log.d("VELOCITY X", Float.toString(velocityTracker.getXVelocity()));
+                    Log.d("VELOCITY Y", Float.toString(velocityTracker.getYVelocity()));
+                    if ((int) Math.abs(velocityTracker.getXVelocity()) > 1500 || (int) Math.abs(velocityTracker.getYVelocity()) > 1500) {
+                        Log.i(TAG, "Swipe" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+                    } else {
+                        Log.i(TAG, "Scroll" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
+                    }
 
-    @Override
-    public boolean onDoubleTapEvent(MotionEvent e) {
-        Log.i(TAG, "Event within double tap" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
-        sendTouchData(e);
-        return false;
-    }
+                    lastX = (int) e.getX();
+                    lastY = (int) e.getY();
 
-    @Override
-    public boolean onSingleTapConfirmed(MotionEvent e) {
-        Log.i(TAG, "Single tap confirmed" + coordination(e) + precision(e) + getTouchType(e) + abTime(e));
-        sendTouchData(e);
-        return false;
+                    sendTouchData(e);
+                }
+
+                break;
+        }
+        return true;
     }
 
     private String coordination(MotionEvent e) {
         int x = (int)e.getX();
         int y = (int)e.getY();
         return "(" + x + " , " + y + ")";
-    }
-
-    private String scrollCoordination(MotionEvent e1, MotionEvent e2) {
-        int x1 = (int)e1.getX();
-        int y1 = (int)e1.getY();
-        int x2 = (int)e2.getX();
-        int y2 = (int)e2.getY();
-
-        return "(" + (x2 - x1) + " , " + (y2 - y1) + ")";
     }
 
     private String precision(MotionEvent e){
@@ -131,15 +118,61 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener
         }
     }
 
+    private String getToolTypeName(MotionEvent e) {
+        switch(e.getToolType(0)) {
+            case MotionEvent.TOOL_TYPE_MOUSE:
+                return "Mouse";
+
+            case MotionEvent.TOOL_TYPE_STYLUS:
+                return "Stylus";
+
+            case MotionEvent.TOOL_TYPE_FINGER:
+                return "Finger";
+
+            case MotionEvent.TOOL_TYPE_ERASER:
+                return "Eraser";
+
+            case MotionEvent.TOOL_TYPE_UNKNOWN:
+                return "Unknown";
+        }
+
+        return "Unknown";
+    }
+
     private JSONObject toJSONObject(MotionEvent e) throws JSONException {
         JSONObject motionEventJson = new JSONObject();
+
+        if (e.getPointerCount() > 1) {
+            motionEventJson.put("NumFingers", e.getPointerCount());
+        } else {
+            motionEventJson.put("NumFingers", 1);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            motionEventJson.put("eventType", e.actionToString(e.getAction()));
+        }
 
         motionEventJson.put("x", e.getX());
         motionEventJson.put("y", e.getY());
         motionEventJson.put("xPrecision", e.getXPrecision());
         motionEventJson.put("yPrecision", e.getYPrecision());
         motionEventJson.put("abTime", e.getEventTime() - e.getDownTime());
-        motionEventJson.put("touchType", e.getToolType(0));
+        motionEventJson.put("touchArea", e.getSize());
+        motionEventJson.put("pressure", e.getPressure());
+
+        if (e.getOrientation() == 0) {
+            motionEventJson.put("orientation", "portrait");
+        } else {
+            motionEventJson.put("orientation", "landscape");
+        }
+
+        motionEventJson.put("toolType", this.getToolTypeName(e));
+
+        if (context.getResources().getString(R.string.app_name) != null) {
+            motionEventJson.put("application", context.getResources().getString(R.string.app_name));
+        } else {
+            motionEventJson.put("application", "unknown");
+        }
 
         return motionEventJson;
     }
