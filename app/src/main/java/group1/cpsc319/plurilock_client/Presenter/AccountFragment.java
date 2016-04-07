@@ -1,6 +1,7 @@
 package group1.cpsc319.plurilock_client.Presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -45,6 +46,9 @@ public class AccountFragment extends Fragment {
         // Inflate the layout for this fragment.
         View view = inflater.inflate(R.layout.fragment_accounts, container, false);
 
+        String stringUsername = getUsername();
+        setUsername(view, stringUsername);
+
         ListView listViewBankAccounts = (ListView) view.findViewById(R.id.listViewBankAccounts);
 
         ArrayAdapter<Account> adapter = new MyArrayAdapter();
@@ -64,6 +68,19 @@ public class AccountFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private String getUsername() {
+        Intent intent = getActivity().getIntent();
+        String stringUsername = intent.getStringExtra("stringUsername");
+        return stringUsername;
+    }
+
+    private void setUsername(View view, String username) {
+        TextView textView = (TextView) view.findViewById(R.id.textViewAccounts);
+        String stringAccounts = "'s Bank Accounts";
+        String stringUsernameAccounts = username + stringAccounts;
+        textView.setText(stringUsernameAccounts);
     }
 
     private class MyArrayAdapter extends ArrayAdapter<Account> {

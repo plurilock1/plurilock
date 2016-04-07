@@ -112,7 +112,14 @@ public class LoginActivity extends GestureActivity {
 
     public void signIn(View view) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        passUsername(intent);
         startActivity(intent);
+    }
+
+    private void passUsername(Intent intent) {
+        EditText editTextUsername = (EditText) findViewById(R.id.editTextUsername);
+        String stringUsername = editTextUsername.getText().toString();
+        intent.putExtra("stringUsername", stringUsername);
     }
 }
 
