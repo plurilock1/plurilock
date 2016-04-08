@@ -26,6 +26,6 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - android list target
-  - adb install -r app/build/outputs/apk/app-debug-androidTest-unaligned.apk
+  - pwd
+  - adb install -r ./app/build/outputs/apk/app-debug-androidTest-unaligned.apk
   - ./gradlew connectedAndroidTest 
