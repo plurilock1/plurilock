@@ -1,7 +1,10 @@
+language: android
 notifications: 
   slack: plurilock1:9Ddic6DYIACEoXXJyilg07j2
+env:
+  global:
+    - ADB_INSTALL_TIMEOUT=8
 
-language: android 
 android: 
   components:  
   - tools 
