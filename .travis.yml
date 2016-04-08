@@ -3,7 +3,7 @@ notifications:
   slack: plurilock1:9Ddic6DYIACEoXXJyilg07j2
 env:
   global:
-    - ADB_INSTALL_TIMEOUT=8
+    - ADB_INSTALL_TIMEOUT=10
 
 android: 
   components:  
@@ -27,4 +27,5 @@ before_script:
 
 script:
   - android list target
+  - adb install adb install -r app/build/outputs/apk/app-debug-androidTest-unaligned.apk
   - ./gradlew connectedAndroidTest 
