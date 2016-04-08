@@ -27,5 +27,5 @@ before_script:
 
 script:
   - android list target
-  - adb install adb install -r app/build/outputs/apk/app-debug-androidTest-unaligned.apk
+  - adb install -r app/build/outputs/apk/app-debug-androidTest-unaligned.apk
   - ./gradlew connectedAndroidTest 
