@@ -114,6 +114,7 @@ With the current directory set to the directory containing feature tests, run th
 * James @yeah568
 * Baek @baek4055
 * Junoh @junohlee
+* Johnny @jh1993
 
 ### License
 
