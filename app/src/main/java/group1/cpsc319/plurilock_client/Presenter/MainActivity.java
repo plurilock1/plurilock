@@ -30,13 +30,6 @@ public class MainActivity extends GestureCompatActivity {
         }
     }
 
-//    private void createCustomToolbar() {
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        // The toolbar can be edited in res/layout/activity_accounts.xml.
-//    }
-
-
     // Create an overflow menu.
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
